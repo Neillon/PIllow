@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Pillow</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+
+    <!-- Shared Preferences keys -->
+    <string name="app_preferences">app_preferences</string>
+    <string name="preference_show_intro_key">intro_active</string>
+
+    <!-- Menu items -->
+    <string name="trends">Trends</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

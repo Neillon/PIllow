@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="BorderedBottomNavigation">
+        <item name="android:background">@drawable/bordered_bottom_navigation_background</item>
+    </style>
+
+</resources>

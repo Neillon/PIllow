@@ -1,0 +1,6 @@
+rootProject.name='Intro'
+include ':app'
+include ':usecase'
+include ':domain'
+include ':data_remote'
+include ':data_local'

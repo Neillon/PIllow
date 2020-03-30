@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9146ff</color>
+    <color name="colorPrimary_60">#9A9146FF</color>
+    <color name="colorPrimaryDark">#6f52b3</color>
+    <color name="colorAccent">#bb66da</color>
+
+    <!-- Basic colors -->
+    <color name="white">#FFF</color>
+    <color name="almostWhite">#E4E4E4</color>
+    <color name="almostBlack">#E8000000</color>
+    <!-- /Basic Colors -->
+
+    <!-- Custom colors -->
+    <color name="darkPurple">#6441a4</color>
+    <color name="introBackgroundLayer">#94000000</color>
+    <!-- /Custom colors -->
+</resources>

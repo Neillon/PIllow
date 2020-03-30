@@ -5,10 +5,10 @@ import com.example.domain.contracts.movies.MovieRepository
 import com.example.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 
-class FavoriteMovieUseCase(private val repository: MovieRepository) :
-    IUseCase<Flow<Unit>, FavoriteMovieUseCase.FavoriteMovieParams> {
+class SaveFavoriteMovieUseCase(private val repository: MovieRepository) :
+    IUseCase<Flow<Unit>, SaveFavoriteMovieUseCase.FavoriteMovieParams> {
 
-    override suspend fun execute(params: FavoriteMovieParams) = repository.favoriteMovie(
+    override suspend fun execute(params: FavoriteMovieParams) = repository.saveFavoriteMovie(
         params.movie
     )
 

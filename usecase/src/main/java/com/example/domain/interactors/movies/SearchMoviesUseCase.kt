@@ -9,10 +9,8 @@ class SearchMoviesUseCase(private val repository: MovieRepository) :
     IUseCase<Flow<List<Movie>>, SearchMoviesUseCase.SearchMovieParams> {
 
     override suspend fun execute(params: SearchMovieParams) = repository.search(
-        params.query,
-        params.page,
-        params.apiKey
+        params.query
     )
 
-    data class SearchMovieParams(val query: String, val page: Int = 1, val apiKey: String = "")
+    data class SearchMovieParams(val query: String)
 }

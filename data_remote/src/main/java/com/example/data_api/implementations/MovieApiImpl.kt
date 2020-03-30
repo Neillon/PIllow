@@ -6,8 +6,8 @@ import retrofit2.http.GET
 
 interface MovieApiImpl {
 
-    @GET
-    suspend fun listAll(): Flow<List<Movie>>
+    @GET()
+    suspend fun listTrendingMovies(): Flow<List<Movie>>
 
     @GET
     suspend fun getById(id: Int): Flow<Movie>

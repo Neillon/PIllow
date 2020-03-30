@@ -25,7 +25,6 @@ class MovieApiBuilder {
             // add interceptors
             interceptors.forEach { clientBuilder.addInterceptor(it) }
 
-            //build retrofit and set client, Coroutine factory
             val retrofit = Retrofit
                 .Builder()
                 .client(clientBuilder.build())

@@ -11,7 +11,7 @@ class MovieLocalRepository(database: AppDatabase) : MovieRepository {
 
     private val dao = database.movieDao()
 
-    override suspend fun listAll() =
+    override suspend fun listTrending() =
         dao.listAll()
             .map { movies ->
                 movies.map { movieEntity ->

@@ -9,10 +9,9 @@ class GetByIdUseCase(private val repository: MovieRepository) :
     IUseCase<Flow<Movie>, GetByIdUseCase.GetByIdParams> {
 
     override suspend fun execute(params: GetByIdParams) = repository.getById(
-        params.id,
-        params.apiKey
+        params.id
     )
 
-    data class GetByIdParams(val id: Int, val apiKey: String)
+    data class GetByIdParams(val id: Int)
 
 }

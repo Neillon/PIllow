@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class MovieApiRepository(val api: MovieApiImpl) : MovieRepository {
     override suspend fun search(query: String) = api.search(query)
 
-    override suspend fun listAll() = api.listAll()
+    override suspend fun listTrending() = api.listTrendingMovies()
 
     override suspend fun getById(id: Int) = api.getById(id)
 

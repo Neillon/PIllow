@@ -2,22 +2,13 @@ package com.example.data_local.repositories
 
 import com.example.data_local.converters.MovieConverter
 import com.example.data_local.database.AppDatabase
-import com.example.domain.contracts.movies.MovieRepository
+import com.example.domain.repositories.movies.MovieLocalRepository
 import com.example.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MovieLocalRepository(database: AppDatabase) : MovieRepository {
-
+class MovieLocalRepository(database: AppDatabase) : MovieLocalRepository {
     private val dao = database.movieDao()
-
-    override suspend fun listTrending() =
-        dao.listAll()
-            .map { movies ->
-                movies.map { movieEntity ->
-                    MovieConverter.toDomain(movieEntity)
-                }
-            }
 
     override suspend fun getById(id: Int) =
         dao.getById(id)

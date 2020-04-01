@@ -1,14 +1,17 @@
 package com.example.domain.interactors.movies
 
 import com.example.domain.contracts.IUseCase
-import com.example.domain.contracts.movies.MovieRepository
+import com.example.domain.repositories.movies.MovieRemoteRepository
 import com.example.domain.entities.Movie
 import com.example.domain.interactors.NoParams
+import com.example.domain.repositories.movies.MovieLocalRepository
 import kotlinx.coroutines.flow.Flow
 
-class ListTrendingMoviesUseCase(private val repository: MovieRepository) :
-    IUseCase<Flow<List<Movie>>, NoParams> {
+class ListTrendingMoviesUseCase(
+    private val remoteRepository: MovieRemoteRepository,
+    private val localRepository: MovieLocalRepository
+) : IUseCase<Flow<List<Movie>>, NoParams> {
 
-    override suspend fun execute(params: NoParams) = repository.listTrending()
+    override suspend fun execute(params: NoParams) = remoteRepository.listTrending()
 }
 

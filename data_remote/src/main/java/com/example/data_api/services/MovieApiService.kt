@@ -1,4 +1,4 @@
-package com.example.data_api.implementations
+package com.example.data_api.services
 
 import com.example.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
@@ -6,8 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MovieApiImpl {
-
+interface MovieApiService {
     @GET("trending/movie/week")
     suspend fun listTrendingMovies(): Flow<List<Movie>>
 

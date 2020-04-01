@@ -1,7 +1,5 @@
 package com.example.data_api
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,22 +12,16 @@ class MovieApiBuilder {
 
         fun <S> createServiceApi(
             serviceClass: Class<S>,
-            baseUrl: String,
-            gson: Gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create(),
             vararg interceptors: Interceptor
         ): S {
-
-            // create client
             val clientBuilder = defaultClient.newBuilder()
-
-            // add interceptors
             interceptors.forEach { clientBuilder.addInterceptor(it) }
 
             val retrofit = Retrofit
                 .Builder()
                 .client(clientBuilder.build())
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             return retrofit.create(serviceClass)

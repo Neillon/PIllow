@@ -5,6 +5,7 @@ import com.example.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository: IRepository<Movie> {
+    suspend fun listTrending(): Flow<List<Movie>>
     suspend fun search(query: String): Flow<List<Movie>>
     suspend fun saveFavoriteMovie(movie: Movie): Flow<Unit>
 }

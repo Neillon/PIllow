@@ -13,7 +13,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private var instance: AppDatabase? = null
-        fun getDatabase(context: Context): AppDatabase {
+
+        fun getInstance(context: Context): AppDatabase {
             if (instance == null) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,

@@ -7,7 +7,6 @@ import com.example.domain.repositories.movies.MovieLocalRepository
 import kotlinx.coroutines.flow.Flow
 
 class SaveFavoriteMovieUseCase(
-    private val remoteRepository: MovieRemoteRepository,
     private val localRepository: MovieLocalRepository
 ) : IUseCase<Flow<Unit>, SaveFavoriteMovieUseCase.FavoriteMovieParams> {
 

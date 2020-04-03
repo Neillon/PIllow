@@ -8,8 +8,7 @@ import com.example.domain.repositories.movies.MovieLocalRepository
 import kotlinx.coroutines.flow.Flow
 
 class ListTrendingMoviesUseCase(
-    private val remoteRepository: MovieRemoteRepository,
-    private val localRepository: MovieLocalRepository
+    private val remoteRepository: MovieRemoteRepository
 ) : IUseCase<Flow<List<Movie>>, NoParams> {
 
     override suspend fun execute(params: NoParams) = remoteRepository.listTrending()

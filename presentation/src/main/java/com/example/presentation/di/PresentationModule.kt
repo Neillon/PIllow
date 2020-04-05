@@ -20,7 +20,7 @@ val presentationModule = module {
     }
 
     single {
-        MovieApiBuilder.createServiceApi(serviceClass = MovieApiService::class.java)
+        MovieApiBuilder.createService(serviceClass = MovieApiService::class.java)
     }
 
     factory {

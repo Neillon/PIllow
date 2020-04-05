@@ -1,5 +1,6 @@
 package com.example.data_api
 
+import com.example.data_api.interceptors.AuthInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -10,13 +11,11 @@ class MovieApiBuilder {
     companion object {
         private val defaultClient: OkHttpClient = OkHttpClient()
 
-        fun <S> createServiceApi(
-            serviceClass: Class<S>,
-            vararg interceptors: Interceptor
+        fun <S> createService(
+            serviceClass: Class<S>
         ): S {
             val clientBuilder = defaultClient.newBuilder()
-            interceptors.forEach { clientBuilder.addInterceptor(it) }
-
+            clientBuilder.addInterceptor(AuthInterceptor())
             val retrofit = Retrofit
                 .Builder()
                 .client(clientBuilder.build())

@@ -34,6 +34,7 @@ class TrendMovieViewModel(
                 }
         } catch (e: Exception) {
             _state.postValue(ViewState.Error(error = e))
+            e.printStackTrace()
         }
     }
 }

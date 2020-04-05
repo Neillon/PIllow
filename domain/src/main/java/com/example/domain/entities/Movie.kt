@@ -9,7 +9,7 @@ data class Movie(
     var popularity: Double,
     var homepage: String = "",
     var voteAverage: Double,
-    var releaseDate: Date,
-    var posterPath: String = "",
-    var backdropPath: String = ""
+    var releaseDate: Date?,
+    var posterPath: String? = "",
+    var backdropPath: String? = ""
 )

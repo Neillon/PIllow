@@ -28,6 +28,9 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
+        setupLayout()
+
+        viewModel.listTrendingMovies()
 
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -47,16 +50,18 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
                     mViewPagerTrendMovies.isVisible = false
                     mProgressBarTrendMovie.isVisible = false
                     mTextViewTrendMovieMessage.isVisible = true
-                    mTextViewTrendMovieMessage.text = "Error loading movies"
+                    mTextViewTrendMovieMessage.text = "Error loading movies: ${it.error.message}"
                 }
-                else -> {
-                    mViewPagerTrendMovies.isVisible = false
-                    mProgressBarTrendMovie.isVisible = false
-                    mTextViewTrendMovieMessage.isVisible = true
-                    mTextViewTrendMovieMessage.text = "Nothing to show"
-                }
+                else -> setupLayout()
             }.exhaustive
         })
+    }
+
+    private fun setupLayout() {
+        mViewPagerTrendMovies.isVisible = false
+        mProgressBarTrendMovie.isVisible = false
+        mTextViewTrendMovieMessage.isVisible = true
+        mTextViewTrendMovieMessage.text = "Nothing to show"
     }
 
     private fun setupViewPager() {

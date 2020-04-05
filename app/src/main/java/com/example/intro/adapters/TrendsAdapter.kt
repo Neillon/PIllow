@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.trends_item_container.view.*
 
 class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
 
-    private lateinit var movies: List<TrendMovie>
+    private val movies = ArrayList<TrendMovie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendViewHolder {
         return TrendViewHolder(
@@ -22,14 +22,16 @@ class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = movies?.size
 
     override fun onBindViewHolder(holder: TrendViewHolder, position: Int) {
         holder.bind(movies[position])
     }
 
-    fun setData(newMovies: List<TrendMovie>) {
-        movies = newMovies
+    fun setData(newMovies: ArrayList<TrendMovie>) {
+        movies.clear()
+        movies.addAll(newMovies)
+        notifyDataSetChanged()
     }
 
     inner class TrendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

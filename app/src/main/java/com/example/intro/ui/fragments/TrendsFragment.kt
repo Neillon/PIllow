@@ -2,46 +2,58 @@ package com.example.intro.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 
 import com.example.intro.R
 import com.example.intro.adapters.TrendsAdapter
-import com.example.intro.model.TrendMovie
+import com.example.presentation.common.ViewState
+import com.example.presentation.viewmodels.TrendMovieViewModel
 import kotlinx.android.synthetic.main.fragment_trends.*
+import org.koin.android.ext.android.inject
 import kotlin.math.abs
 
-class TrendsFragment : Fragment() {
+import com.example.intro.extensions.exhaustive
+import com.example.intro.model.TrendMovie
+
+class TrendsFragment : Fragment(R.layout.fragment_trends) {
 
     private val trendMovieAdapter = TrendsAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let { }
-
-        val movies = listOf(
-            TrendMovie(R.drawable.intro_kong),
-            TrendMovie(R.drawable.intro_guardians),
-            TrendMovie(R.drawable.intro_joker)
-        )
-        trendMovieAdapter.setData(movies)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_trends, container, false)
-    }
+    private val viewModel: TrendMovieViewModel by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewPager()
 
+        viewModel.state.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                ViewState.Loading -> {
+                    mViewPagerTrendMovies.isVisible = false
+                    mProgressBarTrendMovie.isVisible = true
+                    mTextViewTrendMovieMessage.isVisible = true
+                    mTextViewTrendMovieMessage.text = "Loading movies"
+                }
+                is ViewState.Success<*> -> {
+                    trendMovieAdapter.setData(it.data as ArrayList<TrendMovie>)
+                    mViewPagerTrendMovies.isVisible = true
+                    mProgressBarTrendMovie.isVisible = false
+                    mTextViewTrendMovieMessage.isVisible = false
+                }
+                is ViewState.Error -> {
+                    mViewPagerTrendMovies.isVisible = false
+                    mProgressBarTrendMovie.isVisible = false
+                    mTextViewTrendMovieMessage.isVisible = true
+                    mTextViewTrendMovieMessage.text = "Error loading movies"
+                }
+            }.exhaustive
+        })
+    }
+
+    private fun setupViewPager() {
         mViewPagerTrendMovies.adapter = trendMovieAdapter
         mViewPagerTrendMovies.clipToPadding = false
         mViewPagerTrendMovies.clipChildren = false

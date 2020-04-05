@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class MovieViewModel(
+class TrendMovieViewModel(
     private val listTrendingMoviesUseCase: ListTrendingMoviesUseCase
 ) : ViewModel() {
 

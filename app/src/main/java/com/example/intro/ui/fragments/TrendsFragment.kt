@@ -49,6 +49,12 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
                     mTextViewTrendMovieMessage.isVisible = true
                     mTextViewTrendMovieMessage.text = "Error loading movies"
                 }
+                else -> {
+                    mViewPagerTrendMovies.isVisible = false
+                    mProgressBarTrendMovie.isVisible = false
+                    mTextViewTrendMovieMessage.isVisible = true
+                    mTextViewTrendMovieMessage.text = "Nothing to show"
+                }
             }.exhaustive
         })
     }

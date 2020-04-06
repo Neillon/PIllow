@@ -18,7 +18,7 @@ import org.koin.android.ext.android.inject
 import kotlin.math.abs
 
 import com.example.intro.extensions.exhaustive
-import com.example.intro.model.TrendMovie
+import com.example.presentation.binding.MovieBinding
 
 class TrendsFragment : Fragment(R.layout.fragment_trends) {
 
@@ -41,7 +41,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
                     mTextViewTrendMovieMessage.text = "Loading movies"
                 }
                 is ViewState.Success<*> -> {
-                    trendMovieAdapter.setData(it.data as ArrayList<TrendMovie>)
+                    trendMovieAdapter.setData(it.data as ArrayList<MovieBinding>)
                     mViewPagerTrendMovies.isVisible = true
                     mProgressBarTrendMovie.isVisible = false
                     mTextViewTrendMovieMessage.isVisible = false

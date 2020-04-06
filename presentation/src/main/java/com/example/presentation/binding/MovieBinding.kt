@@ -13,7 +13,7 @@ data class MovieBinding(
     val originalTitle: String,
     val genreIds: List<Int>,
     val backdropPath: String?,
-    var homepage: String = "",
+    var homepage: String? = "",
     val adult: Boolean,
     val overview: String,
     val posterPath: String?,

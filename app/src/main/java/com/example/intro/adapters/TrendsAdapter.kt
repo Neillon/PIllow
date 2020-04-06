@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.intro.R
-import com.example.intro.model.TrendMovie
+import com.example.presentation.binding.MovieBinding
 import com.rishabhharit.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.trends_item_container.view.*
 
 class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
 
-    private val movies = ArrayList<TrendMovie>()
+    private val movies = ArrayList<MovieBinding>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendViewHolder {
         return TrendViewHolder(
@@ -28,7 +28,7 @@ class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
         holder.bind(movies[position])
     }
 
-    fun setData(newMovies: ArrayList<TrendMovie>) {
+    fun setData(newMovies: ArrayList<MovieBinding>) {
         movies.clear()
         movies.addAll(newMovies)
         notifyDataSetChanged()
@@ -39,11 +39,11 @@ class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
         private val textViewTrendMovieTitle = itemView.mTextViewTrendMovieTitle as TextView
         private val textViewTrendMovieOverview = itemView.mTextViewTrendMovieOverview as TextView
 
-        fun bind(trendMovie: TrendMovie) {
-            textViewTrendMovieTitle.text    = "Mad Max: Fury Road"
-            textViewTrendMovieOverview.text = "An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order."
+        fun bind(movie: MovieBinding) {
+            textViewTrendMovieTitle.text = movie.title
+            textViewTrendMovieOverview.text = movie.overview
             Glide.with(itemView.context)
-                .load(trendMovie.image)
+                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
                 .centerCrop()
                 .into(imageViewTrendMovie)
         }

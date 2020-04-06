@@ -14,7 +14,7 @@ data class MovieSchema(
     @SerializedName("original_title") val originalTitle: String,
     @SerializedName("genre_ids") val genreIds: List<Int>,
     @SerializedName("backdrop_path") val backdropPath: String?,
-    @SerializedName("homepage") var homepage: String = "",
+    @SerializedName("homepage") var homepage: String? = "",
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("overview") val overview: String,
     @SerializedName("poster_path") val posterPath: String?,

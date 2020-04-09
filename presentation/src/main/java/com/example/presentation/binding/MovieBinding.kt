@@ -18,5 +18,6 @@ data class MovieBinding(
     val overview: String,
     val posterPath: String?,
     val popularity: Double,
-    val mediaType: String
+    val mediaType: String,
+    var favorite: Boolean = false
 )

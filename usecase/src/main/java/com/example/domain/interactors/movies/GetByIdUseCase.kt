@@ -16,5 +16,5 @@ class GetByIdUseCase(
         params.id
     )
 
-    data class GetByIdParams(val id: Int)
+    data class GetByIdParams(val id: Long)
 }

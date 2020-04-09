@@ -5,17 +5,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.interactors.NoParams
 import com.example.domain.interactors.movies.ListTrendingMoviesUseCase
+import com.example.domain.interactors.movies.SaveFavoriteMovieUseCase
+import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.common.asLiveData
 import com.example.presentation.converters.MovieBindingConverter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TrendMovieViewModel(
-    private val listTrendingMoviesUseCase: ListTrendingMoviesUseCase
+    private val listTrendingMoviesUseCase: ListTrendingMoviesUseCase,
+    private val saveFavoriteMovieUseCase: SaveFavoriteMovieUseCase
 ) : ViewModel() {
 
     private val _state: MutableLiveData<ViewState> by lazy { MutableLiveData<ViewState>() }
@@ -37,4 +42,20 @@ class TrendMovieViewModel(
             e.printStackTrace()
         }
     }
+
+    fun favoriteMovie(movie: MovieBinding) = viewModelScope.launch {
+        try {
+            withContext(IO) {
+                saveFavoriteMovieUseCase.execute(
+                    SaveFavoriteMovieUseCase.FavoriteMovieParams(
+                        MovieBindingConverter.toDomain(movie)
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            _state.postValue(ViewState.Error(e))
+            e.printStackTrace()
+        }
+    }
+
 }

@@ -1,73 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mCardViewTrendMovie"
+    <data>
+        <variable
+            name="movie"
+            type="com.example.presentation.binding.MovieBinding" />
+
+        <variable
+            name="favoriteClick"
+            type="com.example.intro.ui.actions.FavoriteMovieClick" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        app:cardElevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mCardViewTrendMovie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!-- Media -->
-            <com.rishabhharit.roundedimageview.RoundedImageView
-                android:id="@+id/mImageViewTrendMoviePoster"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:contentDescription="TEstes dlsakdasl"
-                android:scaleType="centerCrop"
-                app:cornerRadius="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:roundedCorners="topLeft|topRight"
-                tools:srcCompat="@drawable/intro_joker" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                <!-- Media -->
 
-                <!-- Title, secondary and supporting text -->
-                <TextView
-                    android:id="@+id/mTextViewTrendMovieTitle"
-                    android:layout_width="wrap_content"
+                <com.rishabhharit.roundedimageview.RoundedImageView
+                    android:id="@+id/mImageViewTrendMoviePoster"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:imageUrl="@{movie.posterPath}"
+                    android:scaleType="centerCrop"
+                    app:cornerRadius="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:roundedCorners="topLeft|topRight"
+                    tools:srcCompat="@drawable/intro_kong" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    tools:text="Título" />
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/mTextViewTrendMovieOverview"
+                    <!-- Title, secondary and supporting text -->
+                    <TextView
+                        android:id="@+id/mTextViewTrendMovieTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{movie.title}"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        tools:text="Título" />
+
+                    <TextView
+                        android:id="@+id/mTextViewTrendMovieOverview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:maxLines="2"
+                        android:text="@{movie.overview}"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        tools:text="Texto de suporte" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/mButtonFavoriteMovie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:maxLines="2"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
-                    tools:text="Texto de suporte" />
+                    android:layout_marginEnd="16dp"
+                    android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"
+                    app:icon="@drawable/ic_star_border"
+                    android:favorite="@{movie.favorite}"
+                    app:iconGravity="textEnd"
+                    app:iconPadding="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

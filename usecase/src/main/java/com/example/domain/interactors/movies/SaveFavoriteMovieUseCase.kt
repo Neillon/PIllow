@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class SaveFavoriteMovieUseCase(
     private val localRepository: MovieLocalRepository
-) : IUseCase<Flow<Unit>, SaveFavoriteMovieUseCase.FavoriteMovieParams> {
+) : IUseCase<Flow<Movie>, SaveFavoriteMovieUseCase.FavoriteMovieParams> {
 
     override suspend fun execute(params: FavoriteMovieParams) = localRepository.saveFavoriteMovie(
         params.movie

@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieDao {
     @Insert(onConflict = REPLACE)
-    suspend fun create(vararg movieEntity: MovieEntity): Flow<Unit>
+    fun create(movieEntity: MovieEntity): Long
 
-    @Query("SELECT * FROM MovieEntity WHERE upper(movie_name) LIKE upper(:name)")
-    suspend fun search(name: String): Flow<List<MovieEntity>>
+    @Query("SELECT * FROM movie WHERE upper(movie_name) LIKE upper(:name)")
+    fun search(name: String): Flow<List<MovieEntity>>
 
-    @Query("SELECT * FROM MovieEntity")
-    suspend fun listAll(): Flow<List<MovieEntity>>
+//    @Query("SELECT * FROM movie")
+//    fun listAll(): Flow<List<MovieEntity>>
 
-    @Query("SELECT * FROM MovieEntity WHERE movie_id = :id")
-    suspend fun getById(id: Int): Flow<MovieEntity>
+    @Query("SELECT * FROM movie WHERE movie_id = :id")
+    fun getById(id: Long): Flow<MovieEntity>
 }

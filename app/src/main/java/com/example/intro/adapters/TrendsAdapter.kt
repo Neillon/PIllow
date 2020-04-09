@@ -1,28 +1,26 @@
 package com.example.intro.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.intro.R
+import com.example.intro.databinding.TrendsItemContainerBinding
+import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
-import com.rishabhharit.roundedimageview.RoundedImageView
-import kotlinx.android.synthetic.main.trends_item_container.view.*
 
-class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
+class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
+    RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
 
     private val movies = ArrayList<MovieBinding>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendViewHolder {
-        return TrendViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.trends_item_container, parent, false)
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val view = DataBindingUtil.inflate<TrendsItemContainerBinding>(inflater, R.layout.trends_item_container, parent, false)
+        return TrendViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies?.size
+    override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: TrendViewHolder, position: Int) {
         holder.bind(movies[position])
@@ -34,18 +32,21 @@ class TrendsAdapter : RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class TrendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageViewTrendMovie = itemView.mImageViewTrendMoviePoster as RoundedImageView
-        private val textViewTrendMovieTitle = itemView.mTextViewTrendMovieTitle as TextView
-        private val textViewTrendMovieOverview = itemView.mTextViewTrendMovieOverview as TextView
+    fun favoriteMovie(movie: MovieBinding) {
+        val savedMovie = movies.firstOrNull { it.id == movie.id }
+        savedMovie?.let {
+            it.favorite = true;
+        }
+        notifyDataSetChanged()
+    }
 
+    inner class TrendViewHolder(var view: TrendsItemContainerBinding) : RecyclerView.ViewHolder(view.root) {
         fun bind(movie: MovieBinding) {
-            textViewTrendMovieTitle.text = movie.title
-            textViewTrendMovieOverview.text = movie.overview
-            Glide.with(itemView.context)
-                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                .centerCrop()
-                .into(imageViewTrendMovie)
+            view.movie = movie
+            view.favoriteClick = favoriteMovieClick
+
+//            iconButtonFavoriteMovie.setIconResource(if (movie.favorite) R.drawable.ic_star_solid else R.drawable.ic_star_border)
+//            iconButtonFavoriteMovie.setOnClickListener { favoriteMovieClick.favoriteMovieClick(movie) }
         }
     }
 }

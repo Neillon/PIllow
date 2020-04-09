@@ -18,7 +18,7 @@ class MovieApiRepository(private val service: MovieApiService) : MovieRemoteRepo
         })
     }
 
-    override suspend fun getById(id: Int) = flow {
+    override suspend fun getById(id: Long) = flow {
         emit(MovieApiConverter.toDomain(service.getById(id).results))
     }
 }

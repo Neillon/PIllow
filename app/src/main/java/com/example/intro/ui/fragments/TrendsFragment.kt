@@ -18,11 +18,12 @@ import org.koin.android.ext.android.inject
 import kotlin.math.abs
 
 import com.example.intro.extensions.exhaustive
+import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
 
-class TrendsFragment : Fragment(R.layout.fragment_trends) {
+class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
 
-    private val trendMovieAdapter = TrendsAdapter()
+    private val trendMovieAdapter = TrendsAdapter(this)
     private val viewModel: TrendMovieViewModel by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +32,10 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
         setupLayout()
 
         viewModel.listTrendingMovies()
+        observeViewModel();
+    }
 
+    private fun observeViewModel() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
                 ViewState.Loading -> {
@@ -79,5 +83,10 @@ class TrendsFragment : Fragment(R.layout.fragment_trends) {
         }
 
         mViewPagerTrendMovies.setPageTransformer(compositePageTransformer)
+    }
+
+    override fun favoriteMovieClick(movie: MovieBinding) {
+        viewModel.favoriteMovie(movie)
+        trendMovieAdapter.favoriteMovie(movie)
     }
 }

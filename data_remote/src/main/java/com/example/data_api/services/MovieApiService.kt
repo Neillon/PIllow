@@ -14,7 +14,7 @@ interface MovieApiService {
     suspend fun listTrendingMovies(): Response<List<MovieSchema>>
 
     @GET("/movie/{movie_id}")
-    suspend fun getById(@Path("movie_id") movieId: Int): Response<MovieSchema>
+    suspend fun getById(@Path("movie_id") movieId: Long): Response<MovieSchema>
 
     @GET("search/movie?include_adult=false&page=1")
     suspend fun search(@Query("query") query: String): Response<List<MovieSchema>>

@@ -25,7 +25,7 @@ fun ImageView.loadMovieImageFromPath(path: String?) {
 fun RoundedImageView.loadMovieImageFromPath(path: String?) {
     Glide.with(context)
         .load("https://image.tmdb.org/t/p/w500${path}")
-        .centerCrop()
+        .fitCenter()
         .into(this)
 }
 

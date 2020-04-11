@@ -12,23 +12,30 @@ import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
 
 class TrendItemCallback : DiffUtil.ItemCallback<MovieBinding>() {
-    override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) = oldItem.favorite == newItem.favorite
+    override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
+        oldItem.favorite == newItem.favorite
 
-    override fun areContentsTheSame(oldItem: MovieBinding, newItem: MovieBinding) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
+        oldItem.id == newItem.id
 }
 
 class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
     ListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(TrendItemCallback()) {
 
-    private val movies = ArrayList<MovieBinding>()
+    private val movies = arrayListOf<MovieBinding>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<TrendsItemContainerBinding>(inflater, R.layout.trends_item_container, parent, false)
+        val view = DataBindingUtil.inflate<TrendsItemContainerBinding>(
+            inflater,
+            R.layout.trends_item_container,
+            parent,
+            false
+        )
         return TrendViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = movies?.size
 
     override fun onBindViewHolder(holder: TrendViewHolder, position: Int) {
         holder.bind(movies[position])
@@ -48,7 +55,8 @@ class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
         notifyDataSetChanged()
     }
 
-    inner class TrendViewHolder(var view: TrendsItemContainerBinding) : RecyclerView.ViewHolder(view.root) {
+    inner class TrendViewHolder(var view: TrendsItemContainerBinding) :
+        RecyclerView.ViewHolder(view.root) {
         fun bind(movie: MovieBinding) {
             view.movie = movie
             view.favoriteClick = favoriteMovieClick

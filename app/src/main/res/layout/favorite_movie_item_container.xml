@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="movie"
+            type="com.example.presentation.binding.MovieBinding" />
+        
+        <variable
+            name="movieClick"
+            type="com.example.intro.ui.actions.MovieItemClick" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="6dp">
+
+        <com.rishabhharit.roundedimageview.RoundedImageView
+            android:id="@+id/mImageViewFavoriteMoviePoster"
+            android:layout_width="wrap_content"
+            android:layout_height="240dp"
+            android:imageUrl="@{movie.posterPath}"
+            android:onClick="@{() -> movieClick.movieClick(movie)}"
+            android:scaleType="centerCrop"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:roundedCorners="topLeft|topRight"
+            tools:srcCompat="@drawable/intro_kong" />
+
+    </LinearLayout>
+</layout>

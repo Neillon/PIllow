@@ -7,6 +7,7 @@ import com.example.data_local.database.AppDatabase
 import com.example.domain.interactors.movies.*
 import com.example.domain.repositories.movies.MovieLocalRepository
 import com.example.domain.repositories.movies.MovieRemoteRepository
+import com.example.presentation.viewmodels.FavoriteMovieViewModel
 import com.example.presentation.viewmodels.TrendMovieViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -54,5 +55,9 @@ val presentationModule = module {
             saveFavoriteMovieUseCase = get(),
             listFavoriteMoviesUseCase = get()
         )
+    }
+
+    viewModel {
+        FavoriteMovieViewModel(listFavoriteMovieUseCase = get())
     }
 }

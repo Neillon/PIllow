@@ -10,8 +10,8 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.intro.R
 import com.example.intro.adapters.TrendsAdapter
-import com.example.intro.extensions.exhaustive
-import com.example.intro.extensions.isConnected
+import com.example.intro.utils.extensions.exhaustive
+import com.example.intro.utils.extensions.isConnected
 import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState

@@ -3,8 +3,6 @@ package com.example.intro.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intro.R
 import com.example.intro.databinding.FavoriteMovieItemContainerBinding
@@ -35,6 +33,11 @@ class FavoriteMovieAdapter(private val movieItemClick: MovieItemClick) :
 
     fun setData(newMovies: ArrayList<MovieBinding>) {
         movies = newMovies
+        notifyDataSetChanged()
+    }
+
+    fun deleteMovie(id: Long) {
+        movies = movies.filter { it.id != id } as ArrayList<MovieBinding>
         notifyDataSetChanged()
     }
 

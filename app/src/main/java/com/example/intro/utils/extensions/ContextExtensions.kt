@@ -1,4 +1,4 @@
-package com.example.intro.extensions
+package com.example.intro.utils.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager

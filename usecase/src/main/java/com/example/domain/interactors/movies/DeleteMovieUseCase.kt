@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 class DeleteMovieUseCase(
     private val localRepository: MovieLocalRepository
-): IUseCase<Flow<Unit>, DeleteMovieUseCase.Params> {
+): IUseCase<Flow<Unit>, DeleteMovieUseCase.DeleteMovieParams> {
 
-    override suspend fun execute(params: Params) = localRepository.delete(params.id)
+    override suspend fun execute(params: DeleteMovieParams) = localRepository.delete(params.movie)
 
-    data class Params(val id: Long)
+    data class DeleteMovieParams(val movie: Movie)
 }

@@ -11,7 +11,7 @@ import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.intro.adapters.IntroAdapter
 import com.example.intro.R
-import com.example.intro.extensions.setDrawable
+import com.example.intro.utils.extensions.setDrawable
 import kotlinx.android.synthetic.main.activity_intro.*
 
 class IntroActivity : AppCompatActivity() {

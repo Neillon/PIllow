@@ -19,9 +19,9 @@ interface MovieDao {
     @Query("SELECT * FROM movie")
     fun listAll(): Flow<List<MovieEntity>>
 
-    @Query("SELECT * FROM movie WHERE movie_id = :id")
-    fun getById(id: Long): Flow<MovieEntity>
+    @Query("SELECT * FROM movie WHERE id = :id")
+    fun getById(id: Long): Flow<MovieEntity?>
 
-    @Query("DELETE FROM movie WHERE id = :id")
-    fun delete(id: Long)
+    @Delete
+    suspend fun delete(movie: MovieEntity)
 }

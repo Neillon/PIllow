@@ -1,4 +1,4 @@
-package com.example.intro.extensions
+package com.example.intro.utils.bindingAdapters
 
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter

@@ -58,6 +58,10 @@ val presentationModule = module {
     }
 
     viewModel {
-        FavoriteMovieViewModel(listFavoriteMovieUseCase = get())
+        FavoriteMovieViewModel(
+            listFavoriteMovieUseCase = get(),
+            deleteMovieUseCase = get(),
+            getByIdUseCase = get()
+        )
     }
 }

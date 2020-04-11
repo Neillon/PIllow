@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.map
 class MovieLocalRepository(database: AppDatabase) : MovieLocalRepository {
     private val dao = database.movieDao()
 
-    override suspend fun getById(id: Long): Flow<Movie> =
-        dao.getById(id).map { it.convertToDomain() }
+    override suspend fun getById(id: Long): Flow<Movie?> =
+        dao.getById(id).map { it?.convertToDomain() }
 
     override suspend fun search(query: String) =
         dao.search(query).map { it.convertToDomain() }
@@ -22,10 +22,11 @@ class MovieLocalRepository(database: AppDatabase) : MovieLocalRepository {
     override suspend fun saveFavoriteMovie(movie: Movie): Flow<Movie> {
         var id = dao.create(MovieConverter.toEntity(movie))
 
-        return getById(id)
+        return getById(id).map { it!! }
     }
 
     override suspend fun listFavoriteMovies() = dao.listAll().map { it.convertToDomain() }
 
-    override suspend fun delete(id: Long) = flow { emit(dao.delete(id)) }
+    override suspend fun delete(movie: Movie) =
+        flow { emit(dao.delete(MovieConverter.toEntity(movie))) }
 }

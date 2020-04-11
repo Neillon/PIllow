@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface MovieLocalRepository: IRepository<Movie>{
     suspend fun saveFavoriteMovie(movie: Movie): Flow<Movie>
     suspend fun listFavoriteMovies(): Flow<List<Movie>>
-    suspend fun delete(id: Long): Flow<Unit>
+    suspend fun delete(movie: Movie): Flow<Unit>
 }

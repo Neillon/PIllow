@@ -20,6 +20,7 @@ object MovieConverter {
     )
 
     fun toEntity(movie: Movie) = MovieEntity(
+        id = movie.id,
         movieId = movie.movieId,
         movieName = movie.title,
         moviePoster = movie.posterPath

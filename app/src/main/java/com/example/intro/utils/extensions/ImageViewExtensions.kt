@@ -1,9 +1,8 @@
-package com.example.intro.extensions
+package com.example.intro.utils.extensions
 
 import android.content.Context
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.rishabhharit.roundedimageview.RoundedImageView
 
@@ -27,14 +26,4 @@ fun RoundedImageView.loadMovieImageFromPath(path: String?) {
         .load("https://image.tmdb.org/t/p/w500${path}")
         .fitCenter()
         .into(this)
-}
-
-@BindingAdapter("android:imageUrl")
-fun loadImage(view: RoundedImageView, uri: String?) {
-    view.loadMovieImageFromPath(uri)
-}
-
-@BindingAdapter("android:imageUrl")
-fun loadImage(view: ImageView, uri: String?) {
-    view.loadMovieImageFromPath(uri)
 }

@@ -10,11 +10,12 @@ class GetByIdUseCase(
     private val remoteRepository: MovieRemoteRepository,
     private val localRepository: MovieLocalRepository
 ) :
-    IUseCase<Flow<Movie>, GetByIdUseCase.GetByIdParams> {
+    IUseCase<Flow<Movie?>, GetByIdUseCase.GetByIdParams> {
 
-    override suspend fun execute(params: GetByIdParams) = remoteRepository.getById(
-        params.id
-    )
+    override suspend fun execute(params: GetByIdParams) =
+        if (!params.searchLocal) remoteRepository.getById(
+            params.id
+        ) else localRepository.getById(params.id)
 
-    data class GetByIdParams(val id: Long)
+    data class GetByIdParams(val id: Long, var searchLocal: Boolean = false)
 }

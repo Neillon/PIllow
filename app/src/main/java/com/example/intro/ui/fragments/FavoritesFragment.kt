@@ -1,21 +1,26 @@
 package com.example.intro.ui.fragments
 
+import android.content.ClipData
+import android.content.ClipDescription
 import android.os.Bundle
+import android.util.Log
+import android.view.DragEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.intro.R
 import com.example.intro.adapters.FavoriteMovieAdapter
-import com.example.intro.extensions.exhaustive
+import com.example.intro.adapters.MovieImageDragShadowBuilder
+import com.example.intro.utils.extensions.exhaustive
 import com.example.intro.ui.actions.MovieItemClick
 import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.FavoriteMovieViewModel
+import com.rishabhharit.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.koin.android.ext.android.inject
 
@@ -62,9 +67,78 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
             adapter = favoriteMoviesAdapter
             layoutManager = GridLayoutManager(context, 2)
         }
+
+        mFabDeleteMovie.setOnDragListener { view, event ->
+            // Handles each of the expected events
+            when (event.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    true
+                }
+                DragEvent.ACTION_DRAG_ENTERED -> {
+                    Log.d("FavoriteMovieFragment", "The drop was entered.")
+                    true
+                }
+                DragEvent.ACTION_DRAG_LOCATION ->
+                    true
+                DragEvent.ACTION_DRAG_EXITED -> {
+                    view.isVisible = false
+                    true
+                }
+                DragEvent.ACTION_DROP -> {
+                    val item: ClipData.Item = event.clipData.getItemAt(0)
+                    val dragData = item.text as String?
+
+                    favoriteMoviesAdapter.deleteMovie(dragData?.toLong() ?: 0L)
+                    viewModel.deleteMovie(dragData?.toLong() ?: 0L) {
+                        view.isVisible = false
+                        Toast.makeText(context, "The movie was deleted", Toast.LENGTH_LONG).show()
+                    }
+                    true
+                }
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    when (event.result) {
+                        true ->
+                            Log.d("FavoriteMovieFragment", "The drop was handled.")
+                        else ->
+                            Log.d("FavoriteMovieFragment", "The drop didn't work.")
+                    }
+                    view.isVisible = false
+                    true
+                }
+                else -> {
+                    Log.e("DragDrop Example", "Unknown action type received by OnDragListener.")
+                    view.isVisible = false
+                    false
+                }
+            }
+        }
+
     }
 
     override fun movieClick(movie: MovieBinding) {
         Toast.makeText(context, "Teste", Toast.LENGTH_LONG).show()
+    }
+
+    override fun movieLongClick(view: View, movie: MovieBinding): Boolean {
+        mFabDeleteMovie.isVisible = true
+
+        val item = ClipData.Item(movie.id.toString() as? CharSequence)
+        Log.d("FavoriteMovieAdapter", movie.id.toString())
+
+        val dragData = ClipData(
+            movie.id as? CharSequence,
+            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+            item
+        )
+
+        val movieImageShadow = MovieImageDragShadowBuilder(view, (view as RoundedImageView).drawable)
+
+        view.startDrag(
+            dragData,
+            movieImageShadow,
+            null,
+            0
+        )
+        return true
     }
 }

@@ -4,10 +4,7 @@ import com.example.data_api.MovieApiBuilder
 import com.example.data_api.repositories.MovieApiRepository
 import com.example.data_api.services.MovieApiService
 import com.example.data_local.database.AppDatabase
-import com.example.domain.interactors.movies.GetByIdUseCase
-import com.example.domain.interactors.movies.ListTrendingMoviesUseCase
-import com.example.domain.interactors.movies.SaveFavoriteMovieUseCase
-import com.example.domain.interactors.movies.SearchMoviesUseCase
+import com.example.domain.interactors.movies.*
 import com.example.domain.repositories.movies.MovieLocalRepository
 import com.example.domain.repositories.movies.MovieRemoteRepository
 import com.example.presentation.viewmodels.TrendMovieViewModel
@@ -40,10 +37,22 @@ val presentationModule = module {
     }
 
     factory {
-        SearchMoviesUseCase(localRepository = get(), remoteRepository = get())
+        SearchMoviesUseCase(remoteRepository = get())
+    }
+
+    factory {
+        ListFavoriteMoviesUseCase(localRepository = get())
+    }
+
+    factory {
+        DeleteMovieUseCase(localRepository = get())
     }
 
     viewModel {
-        TrendMovieViewModel(listTrendingMoviesUseCase = get(), saveFavoriteMovieUseCase = get())
+        TrendMovieViewModel(
+            listTrendingMoviesUseCase = get(),
+            saveFavoriteMovieUseCase = get(),
+            listFavoriteMoviesUseCase = get()
+        )
     }
 }

@@ -5,7 +5,7 @@ import com.example.domain.entities.Movie
 
 object MovieApiConverter {
     fun toSchema(movie: Movie) = MovieSchema(
-        id = movie.id,
+        id = movie.id!!,
         title = movie.title,
         overview = movie.overview,
         popularity = movie.popularity,
@@ -24,7 +24,6 @@ object MovieApiConverter {
     )
 
     fun toDomain(movieSchema: MovieSchema) = Movie(
-        id = movieSchema.id,
         title = movieSchema.title,
         overview = movieSchema.overview,
         popularity = movieSchema.popularity,
@@ -32,6 +31,7 @@ object MovieApiConverter {
         voteAverage = movieSchema.voteAverage,
         releaseDate = movieSchema.releaseDate,
         posterPath = movieSchema.posterPath,
-        backdropPath = movieSchema.backdropPath
+        backdropPath = movieSchema.backdropPath,
+        movieId = movieSchema.id
     )
 }

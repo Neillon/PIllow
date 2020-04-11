@@ -3,7 +3,7 @@ package com.example.presentation.binding
 import java.util.*
 
 data class MovieBinding(
-    val id: Int,
+    var id: Long,
     val video: Boolean,
     val voteCount: Int,
     val voteAverage: Double,
@@ -19,5 +19,6 @@ data class MovieBinding(
     val posterPath: String?,
     val popularity: Double,
     val mediaType: String,
-    var favorite: Boolean = false
+    var favorite: Boolean = false,
+    var movieId: Long
 )

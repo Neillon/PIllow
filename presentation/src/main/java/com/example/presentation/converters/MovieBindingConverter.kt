@@ -6,7 +6,8 @@ import com.example.presentation.binding.MovieBinding
 object MovieBindingConverter {
 
     fun toBinding(movie: Movie) = MovieBinding(
-        id = movie.id,
+        id = movie.id ?: 0L,
+        movieId = movie.movieId,
         title = movie.title,
         overview = movie.overview,
         popularity = movie.popularity,
@@ -26,6 +27,7 @@ object MovieBindingConverter {
 
     fun toDomain(movieSchema: MovieBinding) = Movie(
         id = movieSchema.id,
+        movieId = movieSchema.movieId,
         title = movieSchema.title,
         overview = movieSchema.overview,
         popularity = movieSchema.popularity,

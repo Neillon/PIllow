@@ -1,25 +1,23 @@
 package com.example.intro.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-
 import com.example.intro.R
 import com.example.intro.adapters.TrendsAdapter
+import com.example.intro.extensions.exhaustive
+import com.example.intro.ui.actions.FavoriteMovieClick
+import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.TrendMovieViewModel
 import kotlinx.android.synthetic.main.fragment_trends.*
 import org.koin.android.ext.android.inject
 import kotlin.math.abs
-
-import com.example.intro.extensions.exhaustive
-import com.example.intro.ui.actions.FavoriteMovieClick
-import com.example.presentation.binding.MovieBinding
 
 class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
 
@@ -46,6 +44,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
                 }
                 is ViewState.Success<*> -> {
                     trendMovieAdapter.setData(it.data as ArrayList<MovieBinding>)
+
                     mViewPagerTrendMovies.isVisible = true
                     mProgressBarTrendMovie.isVisible = false
                     mTextViewTrendMovieMessage.isVisible = false

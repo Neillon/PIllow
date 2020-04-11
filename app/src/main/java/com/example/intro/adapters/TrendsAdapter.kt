@@ -3,14 +3,22 @@ package com.example.intro.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intro.R
 import com.example.intro.databinding.TrendsItemContainerBinding
 import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
 
+class TrendItemCallback : DiffUtil.ItemCallback<MovieBinding>() {
+    override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) = oldItem.favorite == newItem.favorite
+
+    override fun areContentsTheSame(oldItem: MovieBinding, newItem: MovieBinding) = oldItem.id == newItem.id
+}
+
 class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
-    RecyclerView.Adapter<TrendsAdapter.TrendViewHolder>() {
+    ListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(TrendItemCallback()) {
 
     private val movies = ArrayList<MovieBinding>()
 
@@ -44,9 +52,6 @@ class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
         fun bind(movie: MovieBinding) {
             view.movie = movie
             view.favoriteClick = favoriteMovieClick
-
-//            iconButtonFavoriteMovie.setIconResource(if (movie.favorite) R.drawable.ic_star_solid else R.drawable.ic_star_border)
-//            iconButtonFavoriteMovie.setOnClickListener { favoriteMovieClick.favoriteMovieClick(movie) }
         }
     }
 }

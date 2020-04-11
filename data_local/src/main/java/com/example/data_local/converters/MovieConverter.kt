@@ -7,7 +7,7 @@ import java.util.*
 object MovieConverter {
 
     fun toDomain(movieEntity: MovieEntity) = Movie(
-        id = movieEntity.movieId,
+        id = movieEntity.id,
         title = movieEntity.movieName,
         overview = "",
         popularity = 0.0,
@@ -15,12 +15,12 @@ object MovieConverter {
         voteAverage = 0.0,
         releaseDate = Date(),
         posterPath = movieEntity.moviePoster,
-        backdropPath = movieEntity.moviePoster
+        backdropPath = movieEntity.moviePoster,
+        movieId = movieEntity.movieId
     )
 
     fun toEntity(movie: Movie) = MovieEntity(
-        id = 0,
-        movieId = movie.id,
+        movieId = movie.movieId,
         movieName = movie.title,
         moviePoster = movie.posterPath
     )

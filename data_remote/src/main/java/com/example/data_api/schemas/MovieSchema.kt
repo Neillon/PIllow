@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class MovieSchema(
-    @SerializedName("id") val id: Int,
+    @SerializedName("id") val id: Long,
     @SerializedName("video") val video: Boolean,
     @SerializedName("vote_count") val voteCount: Int,
     @SerializedName("vote_average") val voteAverage: Double,

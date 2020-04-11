@@ -7,8 +7,7 @@ import com.example.domain.repositories.movies.MovieLocalRepository
 import kotlinx.coroutines.flow.Flow
 
 class SearchMoviesUseCase(
-    private val remoteRepository: MovieRemoteRepository,
-    private val localRepository: MovieLocalRepository
+    private val remoteRepository: MovieRemoteRepository
 ) : IUseCase<Flow<List<Movie>>, SearchMoviesUseCase.SearchMovieParams> {
 
     override suspend fun execute(params: SearchMovieParams) = remoteRepository.search(

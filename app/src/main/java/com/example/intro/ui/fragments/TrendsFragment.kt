@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.intro.R
 import com.example.intro.adapters.TrendsAdapter
 import com.example.intro.extensions.exhaustive
+import com.example.intro.extensions.isConnected
 import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
@@ -29,7 +30,15 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
         setupViewPager()
         setupLayout()
 
-        viewModel.listTrendingMovies()
+        if (context?.isConnected!!) {
+            viewModel.listTrendingMovies()
+        } else {
+            mViewPagerTrendMovies.isVisible = false
+            mProgressBarTrendMovie.isVisible = false
+            mTextViewTrendMovieMessage.isVisible = true
+            mTextViewTrendMovieMessage.text = "Error loading movies: No internet connection"
+        }
+
         observeViewModel();
     }
 

@@ -78,8 +78,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
                     Log.d("FavoriteMovieFragment", "The drop was entered.")
                     true
                 }
-                DragEvent.ACTION_DRAG_LOCATION ->
+                DragEvent.ACTION_DRAG_LOCATION -> {
+                    view.isVisible = false
                     true
+                }
                 DragEvent.ACTION_DRAG_EXITED -> {
                     view.isVisible = false
                     true

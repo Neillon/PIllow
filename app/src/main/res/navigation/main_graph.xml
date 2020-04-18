@@ -15,15 +15,6 @@
             app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/searchFragmentDestination"
-        android:name="com.example.intro.ui.fragments.SearchFragment"
-        android:label="@string/search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragmentDestination_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/profileFragmentDestination"
         android:name="com.example.intro.ui.fragments.ProfileFragment"
         android:label="@string/profile"

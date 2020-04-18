@@ -56,7 +56,7 @@ class TrendMovieViewModel(
 
                     if (favoriteMovie != null) {
                         movie.favorite = true
-                        movie.id = favoriteMovie.id ?: 0L
+                        movie.id = favoriteMovie.id ?: null
                     }
                 }
                 _state.postValue(ViewState.Success(movies))

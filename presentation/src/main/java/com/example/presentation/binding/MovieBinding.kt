@@ -3,7 +3,7 @@ package com.example.presentation.binding
 import java.util.*
 
 data class MovieBinding(
-    var id: Long,
+    var id: Long?,
     val video: Boolean,
     val voteCount: Int,
     val voteAverage: Double,

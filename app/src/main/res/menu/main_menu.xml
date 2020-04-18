@@ -8,11 +8,6 @@
         android:title="@string/trends"
         app:showAsAction="always" />
     <item
-        android:id="@+id/searchFragmentDestination"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/favoritesFragmentDestination"
         android:icon="@drawable/ic_star_border"
         android:title="@string/favorites"

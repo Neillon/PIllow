@@ -75,7 +75,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
                     true
                 }
                 DragEvent.ACTION_DRAG_ENTERED -> {
-                    Log.d("FavoriteMovieFragment", "The drop was entered.")
                     true
                 }
                 DragEvent.ACTION_DRAG_LOCATION -> {
@@ -108,7 +107,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
                     true
                 }
                 else -> {
-                    Log.e("DragDrop Example", "Unknown action type received by OnDragListener.")
                     view.isVisible = false
                     false
                 }

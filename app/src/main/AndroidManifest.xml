@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.HomeActivity" android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar"></activity>
+        <activity android:name=".ui.activities.HomeActivity" android:theme="@style/com.example.intro.AppTheme.Light"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

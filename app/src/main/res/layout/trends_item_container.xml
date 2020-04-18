@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movie"
             type="com.example.presentation.binding.MovieBinding" />
@@ -32,8 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <!-- Media -->
 
                 <com.rishabhharit.roundedimageview.RoundedImageView
                     android:id="@+id/mImageViewTrendMoviePoster"
@@ -81,21 +80,33 @@
                         android:textColor="?android:attr/textColorSecondary"
                         tools:text="Texto de suporte" />
 
-                </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/mButtonFavoriteMovie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"
-                    app:icon="@drawable/ic_star_border"
-                    android:favorite="@{movie.favorite}"
-                    app:iconGravity="textEnd"
-                    app:iconPadding="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/mButtonTrendItemDetail"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Details" />
+
+                        <ImageButton
+                            android:id="@+id/mButtonFavoriteMovie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            android:favorite="@{movie.favorite}"
+                            android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"
+                            android:src="@drawable/ic_star_border" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

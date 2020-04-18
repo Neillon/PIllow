@@ -6,7 +6,7 @@ import com.example.presentation.binding.MovieBinding
 object MovieBindingConverter {
 
     fun toBinding(movie: Movie) = MovieBinding(
-        id = movie.id ?: 0L,
+        id = movie.id ?: null,
         movieId = movie.movieId,
         title = movie.title,
         overview = movie.overview,

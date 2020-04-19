@@ -20,7 +20,6 @@ class MovieLocalRepository(database: AppDatabase) : MovieLocalRepository {
         dao.search(query).map { it.convertToDomain() }
 
     override suspend fun saveFavoriteMovie(movie: Movie): Flow<Movie> {
-        // movie.id = null
         var id = dao.create(MovieConverter.toEntity(movie))
 
         return getById(id).map { it!! }
@@ -28,6 +27,5 @@ class MovieLocalRepository(database: AppDatabase) : MovieLocalRepository {
 
     override suspend fun listFavoriteMovies() = dao.listAll().map { it.convertToDomain() }
 
-    override suspend fun delete(movie: Movie) =
-        flow { emit(dao.delete(MovieConverter.toEntity(movie))) }
+    override suspend fun delete(movie: Movie) = dao.delete(MovieConverter.toEntity(movie))
 }

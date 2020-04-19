@@ -17,6 +17,7 @@ import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.TrendMovieViewModel
 import kotlinx.android.synthetic.main.fragment_trends.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import kotlin.math.abs
 
@@ -25,6 +26,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
     private val trendMovieAdapter = TrendsAdapter(this)
     private val viewModel: TrendMovieViewModel by inject()
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
@@ -93,6 +95,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
         mViewPagerTrendMovies.setPageTransformer(compositePageTransformer)
     }
 
+    @ExperimentalCoroutinesApi
     override fun favoriteMovieClick(movie: MovieBinding) {
         viewModel.favoriteMovie(movie)
         trendMovieAdapter.favoriteMovie(movie)

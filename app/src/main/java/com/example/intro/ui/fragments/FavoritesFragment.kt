@@ -22,6 +22,7 @@ import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.FavoriteMovieViewModel
 import com.rishabhharit.roundedimageview.RoundedImageView
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
 class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick {
@@ -29,6 +30,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
     private val viewModel: FavoriteMovieViewModel by inject()
     private val favoriteMoviesAdapter = FavoriteMovieAdapter(this)
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,6 +64,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
         })
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupLayout() {
         mRecyclerViewFavoriteMovies.apply {
             adapter = favoriteMoviesAdapter
@@ -69,14 +72,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
         }
 
         mFabDeleteMovie.setOnDragListener { view, event ->
-            // Handles each of the expected events
             when (event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    true
-                }
-                DragEvent.ACTION_DRAG_ENTERED -> {
-                    true
-                }
+                DragEvent.ACTION_DRAG_STARTED -> true
+                DragEvent.ACTION_DRAG_ENTERED -> true
                 DragEvent.ACTION_DRAG_LOCATION -> {
                     view.isVisible = false
                     true
@@ -86,14 +84,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
                     true
                 }
                 DragEvent.ACTION_DROP -> {
-                    val item: ClipData.Item = event.clipData.getItemAt(0)
-                    val dragData = item.text as String?
-
-                    favoriteMoviesAdapter.deleteMovie(dragData?.toLong() ?: 0L)
-                    viewModel.deleteMovie(dragData?.toLong() ?: 0L) {
-                        view.isVisible = false
-                        Toast.makeText(context, "The movie was deleted", Toast.LENGTH_LONG).show()
-                    }
+                    deleteMovie(event, view)
                     true
                 }
                 DragEvent.ACTION_DRAG_ENDED -> {
@@ -113,6 +104,17 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
             }
         }
 
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun deleteMovie(event: DragEvent?, view: View) {
+        val item: ClipData.Item = event?.clipData!!.getItemAt(0)
+        val dragData = item.text as String?
+
+        favoriteMoviesAdapter.deleteMovie(dragData?.toLong() ?: 0L)
+        viewModel.deleteMovie(dragData?.toLong() ?: 0L) {
+            view.isVisible = false
+        }
     }
 
     override fun movieClick(movie: MovieBinding) {

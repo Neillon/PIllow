@@ -29,7 +29,7 @@ class FavoriteMovieAdapter(private val movieItemClick: MovieItemClick) :
         holder.bind(movies[position])
     }
 
-    override fun getItemCount() = movies?.size
+    override fun getItemCount() = movies.size
 
     fun setData(newMovies: ArrayList<MovieBinding>) {
         movies = newMovies

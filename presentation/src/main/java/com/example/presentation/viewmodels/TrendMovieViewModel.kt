@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -46,6 +47,7 @@ class TrendMovieViewModel(
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun findFavoriteMoviesAndPostValue(movies: List<MovieBinding>) = viewModelScope.launch {
         listFavoriteMoviesUseCase.execute(NoParams())
             .flowOn(IO)
@@ -56,13 +58,14 @@ class TrendMovieViewModel(
 
                     if (favoriteMovie != null) {
                         movie.favorite = true
-                        movie.id = favoriteMovie.id ?: null
+                        movie.id = favoriteMovie.id
                     }
                 }
                 _state.postValue(ViewState.Success(movies))
             }
     }
 
+    @ExperimentalCoroutinesApi
     fun favoriteMovie(movie: MovieBinding) = viewModelScope.launch {
         try {
             withContext(IO) {

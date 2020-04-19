@@ -35,7 +35,7 @@ class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
         return TrendViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies?.size
+    override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: TrendViewHolder, position: Int) {
         holder.bind(movies[position])

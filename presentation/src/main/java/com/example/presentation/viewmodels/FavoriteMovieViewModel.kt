@@ -10,7 +10,9 @@ import com.example.domain.interactors.movies.ListFavoriteMoviesUseCase
 import com.example.presentation.common.ViewState
 import com.example.presentation.common.asLiveData
 import com.example.presentation.extensions.convertToBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class FavoriteMovieViewModel(
     private val _state: MutableLiveData<ViewState> by lazy { MutableLiveData<ViewState>() }
     var state = _state.asLiveData
 
+    @ExperimentalCoroutinesApi
     fun listFavoriteMovies() = viewModelScope.launch {
         _state.postValue(ViewState.Loading)
         try {
@@ -38,14 +41,14 @@ class FavoriteMovieViewModel(
         }
     }
 
-    fun deleteMovie(id: Long, onFinalize: () -> Unit) = viewModelScope.launch {
+    @ExperimentalCoroutinesApi
+    fun deleteMovie(id: Long, onComplete: () -> Unit) = viewModelScope.launch {
         getByIdUseCase.execute(GetByIdUseCase.GetByIdParams(id, searchLocal = true))
+            .flowOn(IO)
             .collect { movie ->
                 movie?.let {
                     deleteMovieUseCase.execute(DeleteMovieUseCase.DeleteMovieParams(it))
-                        .collect {
-                            onFinalize()
-                        }
+                    onComplete()
                 }
             }
     }

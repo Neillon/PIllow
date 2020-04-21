@@ -7,6 +7,7 @@ import com.example.domain.interactors.NoParams
 import com.example.domain.interactors.movies.DeleteMovieUseCase
 import com.example.domain.interactors.movies.GetByIdUseCase
 import com.example.domain.interactors.movies.ListFavoriteMoviesUseCase
+import com.example.domain.interactors.movies.SearchMoviesUseCase
 import com.example.presentation.common.ViewState
 import com.example.presentation.common.asLiveData
 import com.example.presentation.extensions.convertToBinding
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 class FavoriteMovieViewModel(
     private val listFavoriteMovieUseCase: ListFavoriteMoviesUseCase,
     private val getByIdUseCase: GetByIdUseCase,
-    private val deleteMovieUseCase: DeleteMovieUseCase
+    private val deleteMovieUseCase: DeleteMovieUseCase,
+    private val searchMoviesUseCase: SearchMoviesUseCase
 ) : ViewModel() {
 
     private val _state: MutableLiveData<ViewState> by lazy { MutableLiveData<ViewState>() }
@@ -51,5 +53,19 @@ class FavoriteMovieViewModel(
                     onComplete()
                 }
             }
+    }
+
+    fun searchMoviesByTitle(query: String) = viewModelScope.launch {
+        _state.postValue(ViewState.Loading)
+        try {
+            searchMoviesUseCase.execute(SearchMoviesUseCase.SearchMovieParams(query))
+                .flowOn(IO)
+                .collect { movies ->
+                    _state.postValue(ViewState.Success(movies.convertToBinding()))
+                }
+        } catch (e: Exception) {
+            _state.postValue(ViewState.Error(error = e))
+            e.printStackTrace()
+        }
     }
 }

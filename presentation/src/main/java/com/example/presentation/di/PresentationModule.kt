@@ -38,7 +38,7 @@ val presentationModule = module {
     }
 
     factory {
-        SearchMoviesUseCase(remoteRepository = get())
+        SearchMoviesUseCase(localRepository = get())
     }
 
     factory {
@@ -61,7 +61,8 @@ val presentationModule = module {
         FavoriteMovieViewModel(
             listFavoriteMovieUseCase = get(),
             deleteMovieUseCase = get(),
-            getByIdUseCase = get()
+            getByIdUseCase = get(),
+            searchMoviesUseCase = get()
         )
     }
 }

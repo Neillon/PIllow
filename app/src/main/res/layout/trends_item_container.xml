@@ -67,6 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{movie.title}"
+                        android:maxLines="1"
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         tools:text="Título" />
 
@@ -92,7 +93,8 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Details" />
+                            android:text="Details"
+                            android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"/>
 
                         <ImageButton
                             android:id="@+id/mButtonFavoriteMovie"

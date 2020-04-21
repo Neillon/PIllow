@@ -29,7 +29,7 @@
             android:onClick="@{() -> movieClick.movieClick(movie)}"
             android:onLongClick="@{(view) -> movieClick.movieLongClick(view, movie)}"
             android:scaleType="centerCrop"
-            app:cornerRadius="8dp"
+            app:cornerRadius="20dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

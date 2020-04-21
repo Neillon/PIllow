@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="searchViewStyle">@style/SearchViewWithoutIcon</item>
     </style>
 
     <style name="com.example.intro.AppTheme.Light.NoActionAndStatusBar" parent="com.example.intro.AppTheme.Light">

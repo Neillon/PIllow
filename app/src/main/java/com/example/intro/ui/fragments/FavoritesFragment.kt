@@ -45,6 +45,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
         setupLayout()
     }
 
+    // TODO("Search by voice feature - make searchview activity in another activity")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_favorite_movies, menu)

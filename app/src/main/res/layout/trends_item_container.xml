@@ -12,6 +12,10 @@
         <variable
             name="favoriteClick"
             type="com.example.intro.ui.actions.FavoriteMovieClick" />
+
+        <variable
+            name="movieItemClick"
+            type="com.example.intro.ui.actions.MovieItemClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Details"
-                            android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"/>
+                            android:onClick="@{() -> movieItemClick.movieClick(movie)}"/>
 
                         <ImageButton
                             android:id="@+id/mButtonFavoriteMovie"

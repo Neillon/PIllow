@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -13,6 +14,7 @@ import com.example.intro.adapters.TrendsAdapter
 import com.example.intro.utils.extensions.exhaustive
 import com.example.intro.utils.extensions.isConnected
 import com.example.intro.ui.actions.FavoriteMovieClick
+import com.example.intro.ui.actions.MovieItemClick
 import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.TrendMovieViewModel
@@ -21,9 +23,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import kotlin.math.abs
 
-class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
+class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, MovieItemClick {
 
-    private val trendMovieAdapter = TrendsAdapter(this)
+    private val trendMovieAdapter = TrendsAdapter(this, this)
     private val viewModel: TrendMovieViewModel by inject()
 
     @ExperimentalCoroutinesApi
@@ -99,5 +101,14 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick {
     override fun favoriteMovieClick(movie: MovieBinding) {
         viewModel.favoriteMovie(movie)
         trendMovieAdapter.favoriteMovie(movie)
+    }
+
+    override fun movieClick(movie: MovieBinding) {
+        val action = TrendsFragmentDirections.actionTrendsFragmentDestinationToMovieDetailFragment(movie, movie.title)
+        findNavController().navigate(action)
+    }
+
+    override fun movieLongClick(view: View, movie: MovieBinding): Boolean {
+        return true
     }
 }

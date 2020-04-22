@@ -4,15 +4,19 @@
     <!-- Base application theme. -->
     <style name="com.example.intro.AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
         <item name="searchViewStyle">@style/SearchViewWithoutIcon</item>
     </style>
 
     <style name="com.example.intro.AppTheme.Light.NoActionAndStatusBar" parent="com.example.intro.AppTheme.Light">
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
-    
+
 </resources>

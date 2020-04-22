@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.intro.R
 import com.example.intro.databinding.TrendsItemContainerBinding
 import com.example.intro.ui.actions.FavoriteMovieClick
+import com.example.intro.ui.actions.MovieItemClick
 import com.example.presentation.binding.MovieBinding
 
 class TrendItemCallback : DiffUtil.ItemCallback<MovieBinding>() {
@@ -19,7 +20,10 @@ class TrendItemCallback : DiffUtil.ItemCallback<MovieBinding>() {
         oldItem.id == newItem.id
 }
 
-class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
+class TrendsAdapter(
+    private val favoriteMovieClick: FavoriteMovieClick,
+    private val movieItemClick: MovieItemClick
+) :
     ListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(TrendItemCallback()) {
 
     private val movies = arrayListOf<MovieBinding>()
@@ -60,6 +64,7 @@ class TrendsAdapter(private val favoriteMovieClick: FavoriteMovieClick) :
         fun bind(movie: MovieBinding) {
             view.movie = movie
             view.favoriteClick = favoriteMovieClick
+            view.movieItemClick = movieItemClick
         }
     }
 }

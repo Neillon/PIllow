@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.intro.R
 import com.example.intro.adapters.FavoriteMovieAdapter
@@ -35,10 +38,13 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
 
     private val viewModel: FavoriteMovieViewModel by inject()
     private val favoriteMoviesAdapter = FavoriteMovieAdapter(this)
+    private lateinit var navController: NavController
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = findNavController()
 
         viewModel.listFavoriteMovies()
         observeViewModel()
@@ -71,6 +77,17 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
         })
 
         setupSearchView(searchView)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        // activity?.window?.statusBarColor = Color.BLACK
+
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     private fun setupSearchView(searchView: SearchView) {
@@ -173,7 +190,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MovieItemClick 
     }
 
     override fun movieClick(movie: MovieBinding) {
-        Toast.makeText(context, "Teste", Toast.LENGTH_LONG).show()
+        val action = FavoritesFragmentDirections.actionFavoritesFragmentDestinationToMovieDetailFragment(movie, movie.title)
+        navController.navigate(action)
     }
 
     override fun movieLongClick(view: View, movie: MovieBinding): Boolean {

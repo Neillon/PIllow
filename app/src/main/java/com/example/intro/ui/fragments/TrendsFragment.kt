@@ -1,5 +1,6 @@
 package com.example.intro.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import com.example.intro.utils.extensions.exhaustive
 import com.example.intro.utils.extensions.isConnected
 import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.intro.ui.actions.MovieItemClick
+import com.example.intro.ui.activities.MovieDetailActivity
 import com.example.presentation.binding.MovieBinding
 import com.example.presentation.common.ViewState
 import com.example.presentation.viewmodels.TrendMovieViewModel
@@ -104,8 +106,9 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
     }
 
     override fun movieClick(movie: MovieBinding) {
-        val action = TrendsFragmentDirections.actionTrendsFragmentDestinationToMovieDetailFragment(movie, movie.title)
-        findNavController().navigate(action)
+        val intent = Intent(activity, MovieDetailActivity::class.java)
+        intent.putExtra("movie", movie)
+        startActivity(intent)
     }
 
     override fun movieLongClick(view: View, movie: MovieBinding): Boolean {

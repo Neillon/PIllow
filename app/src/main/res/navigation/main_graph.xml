@@ -9,12 +9,7 @@
         android:id="@+id/favoritesFragmentDestination"
         android:name="com.example.intro.ui.fragments.FavoritesFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/fragment_favorites" >
-        <action
-            android:id="@+id/action_favoritesFragmentDestination_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment"
-            app:popUpTo="@id/favoritesFragmentDestination" />
-    </fragment>
+        tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/profileFragmentDestination"
         android:name="com.example.intro.ui.fragments.ProfileFragment"
@@ -24,25 +19,5 @@
         android:id="@+id/trendsFragmentDestination"
         android:name="com.example.intro.ui.fragments.TrendsFragment"
         android:label="@string/trends"
-        tools:layout="@layout/fragment_trends" >
-        <action
-            android:id="@+id/action_trendsFragmentDestination_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment"
-            app:popUpTo="@id/trendsFragmentDestination" />
-    </fragment>
-    <fragment
-        android:id="@+id/movieDetailFragment"
-        android:name="com.example.intro.ui.fragments.MovieDetailFragment"
-        android:label="{title}"
-        tools:layout="@layout/fragment_movie_detail" >
-        <argument
-            android:name="movie"
-            app:argType="com.example.presentation.binding.MovieBinding"
-            app:nullable="true" />
-        <argument
-            android:name="title"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="Movie Details" />
-    </fragment>
+        tools:layout="@layout/fragment_trends" />
 </navigation>

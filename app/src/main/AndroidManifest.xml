@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/pillow"
         android:supportsRtl="true"
         android:theme="@style/com.example.intro.AppTheme.Light">
-
+        <activity
+            android:name=".ui.activities.MovieDetailActivity"
+            android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar"></activity>
         <activity
             android:name=".ui.activities.IntroActivity"
             android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar">
@@ -25,7 +27,6 @@
         <activity
             android:name=".ui.activities.HomeActivity"
             android:theme="@style/com.example.intro.AppTheme.Light">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

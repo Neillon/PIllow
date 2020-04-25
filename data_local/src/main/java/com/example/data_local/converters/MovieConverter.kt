@@ -9,10 +9,10 @@ object MovieConverter {
     fun toDomain(movieEntity: MovieEntity) = Movie(
         id = movieEntity.id,
         title = movieEntity.movieName,
-        overview = "",
+        overview = movieEntity.movieOverview ?: "",
         popularity = 0.0,
         homepage = "",
-        voteAverage = 0.0,
+        voteAverage = movieEntity.voteAverage,
         releaseDate = Date(),
         posterPath = movieEntity.moviePoster,
         backdropPath = movieEntity.moviePoster,
@@ -23,6 +23,8 @@ object MovieConverter {
         id = movie.id,
         movieId = movie.movieId,
         movieName = movie.title,
-        moviePoster = movie.posterPath
+        movieOverview = movie.overview,
+        moviePoster = movie.posterPath,
+        voteAverage = movie.voteAverage
     )
 }

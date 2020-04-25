@@ -10,5 +10,7 @@ data class MovieEntity(
     @ColumnInfo(name = "id") val id: Long? = null,
     @ColumnInfo(name = "movie_id") val movieId: Long,
     @ColumnInfo(name = "movie_name") val movieName: String,
-    @ColumnInfo(name = "movie_poster") val moviePoster: String?
+    @ColumnInfo(name = "movie_poster") val moviePoster: String?,
+    @ColumnInfo(name = "movie_vote_average") val voteAverage: Double,
+    @ColumnInfo(name = "movie_overview") val movieOverview: String?
 )

@@ -16,18 +16,22 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mAppBarDetail"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:fitsSystemWindows="true"
-            android:theme="@style/com.example.intro.AppTheme.Light">
+            android:theme="@style/com.example.intro.AppTheme.Light"
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/mCollapsingToolbarDetailFragment"
+                android:id="@+id/mCollapsingToolbarDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/white"
-                app:expandedTitleMarginBottom="20dp"
+                android:elevation="0dp"
+                app:statusBarScrim="@color/white"
+                app:expandedTitleMarginBottom="30dp"
                 app:expandedTitleTextAppearance="@style/collapsingToolbarLayoutTitleColor"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 tools:title="Kong">
@@ -46,6 +50,20 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/intro_background_layer" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/background_movie_vote"
+                    android:text="@{String.valueOf(movie.voteAverage)}"
+                    tools:text="9.0"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:padding="6dp"
+                    />
+
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/mToolbarDetail"
                     android:layout_width="match_parent"
@@ -53,7 +71,8 @@
                     app:contentInsetStartWithNavigation="0dp"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/com.example.intro.AppTheme.Light"
-                    app:title="@{movie.title}" />
+                    app:title="@{movie.title}"
+                    android:elevation="0dp" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -69,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="12dp"
+                android:layout_marginTop="16dp">
 
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Headline5"
@@ -82,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Contrary to popular belief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random tbelief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham." />
+                    android:text="@{movie.overview}" />
 
             </LinearLayout>
 

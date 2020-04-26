@@ -8,6 +8,9 @@
     <!-- Basic colors -->
     <color name="white">#FFF</color>
     <color name="black">#000</color>
+    <color name="gray">#787878</color>
+    <color name="beautiful_blue">#6f99ff</color>
+    <color name="beautiful_green">#B328FFD9</color>
     <color name="almostWhite">#E4E4E4</color>
     <color name="almostBlack">#E8000000</color>
     <!-- /Basic Colors -->

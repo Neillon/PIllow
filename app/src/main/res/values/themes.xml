@@ -21,4 +21,9 @@
         <item name="statusBarScrim">@color/white</item>
     </style>
 
+    <style name="com.example.intro.AppTheme.Camera" parent="com.example.intro.AppTheme.Light">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+    </style>
+
 </resources>

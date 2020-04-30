@@ -17,4 +17,12 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="com.example.intro.AppTheme.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="com.example.intro.AppTheme.Light.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="com.example.intro.AppTheme.Light.PopupOverlay"
+        parent="ThemeOverlay.AppCompat.Light" />
 </resources>

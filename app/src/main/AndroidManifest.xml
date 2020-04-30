@@ -3,6 +3,11 @@
     package="com.example.intro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:name=".MovieApplication"
@@ -13,8 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/com.example.intro.AppTheme.Light">
         <activity
+            android:name=".ui.activities.CameraActivity"
+            android:theme="@style/com.example.intro.AppTheme.Camera"></activity>
+        <activity
             android:name=".ui.activities.MovieDetailActivity"
-            android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar"></activity>
+            android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar" />
         <activity
             android:name=".ui.activities.IntroActivity"
             android:theme="@style/com.example.intro.AppTheme.Light.NoActionAndStatusBar">

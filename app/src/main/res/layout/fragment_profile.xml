@@ -25,11 +25,11 @@
             app:title="@string/profile" />
 
         <com.rishabhharit.roundedimageview.RoundedImageView
-            android:id="@+id/mRoundedImageViewProfilePicture"
+            android:id="@+id/mImageViewViewProfilePicture"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="24dp"
-            android:elevation="8dp"
+            android:elevation="4dp"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +41,10 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/ic_camera_alt_black"
-            app:layout_constraintBottom_toBottomOf="@+id/mRoundedImageViewProfilePicture"
-            app:layout_constraintEnd_toStartOf="@+id/mRoundedImageViewProfilePicture"
+            app:layout_constraintBottom_toBottomOf="@+id/mImageViewViewProfilePicture"
+            app:layout_constraintEnd_toStartOf="@+id/mImageViewViewProfilePicture"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mRoundedImageViewProfilePicture" />
+            app:layout_constraintTop_toTopOf="@+id/mImageViewViewProfilePicture" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mRoundedImageViewProfilePicture">
+            app:layout_constraintTop_toBottomOf="@+id/mImageViewViewProfilePicture">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -132,10 +132,10 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/ic_settings_black"
-            app:layout_constraintBottom_toBottomOf="@+id/mRoundedImageViewProfilePicture"
+            app:layout_constraintBottom_toBottomOf="@+id/mImageViewViewProfilePicture"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mRoundedImageViewProfilePicture"
-            app:layout_constraintTop_toTopOf="@+id/mRoundedImageViewProfilePicture" />
+            app:layout_constraintStart_toEndOf="@+id/mImageViewViewProfilePicture"
+            app:layout_constraintTop_toTopOf="@+id/mImageViewViewProfilePicture" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,4 +8,5 @@
     <dimen name="shrine_toolbar_image_offset_top">0dp</dimen>
     <dimen name="shrine_toolbar_collapsed_height">60dp</dimen>
     <dimen name="tall_toolbar_height">300dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

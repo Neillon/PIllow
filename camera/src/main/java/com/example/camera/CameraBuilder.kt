@@ -1,4 +1,4 @@
-package com.example.presentation.viewmodels
+package com.example.camera
 
 import android.content.Context
 import android.util.DisplayMetrics
@@ -7,6 +7,8 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import com.example.camera.model.Camera
+import java.io.File
 import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.max
@@ -43,13 +45,21 @@ object CameraBuilder {
     }
 
     fun buildImageCapture(metrics: DisplayMetrics): CameraBuilder {
-        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+        val screenAspectRatio = aspectRatio(
+            metrics.widthPixels,
+            metrics.heightPixels
+        )
 
         camera.imageCapture = ImageCapture.Builder()
             .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
             .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
             .setTargetAspectRatio(screenAspectRatio!!)
             .build()
+        return this
+    }
+
+    fun buildOutputDirectory(context: Context): CameraBuilder {
+        camera.outputDirectory = getOutputDirectory(context)
         return this
     }
 
@@ -61,5 +71,15 @@ object CameraBuilder {
             return AspectRatio.RATIO_4_3
 
         return AspectRatio.RATIO_16_9
+    }
+
+    /** Use external media if it is available, our app's file directory otherwise */
+    private fun getOutputDirectory(context: Context): File {
+        val appContext = context.applicationContext
+        val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
+            File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else appContext.filesDir
     }
 }

@@ -2,12 +2,15 @@ package com.example.presentation.viewmodels
 
 import android.content.Context
 import android.util.DisplayMetrics
-import androidx.camera.core.CameraSelector
 import androidx.lifecycle.ViewModel
-import com.example.presentation.R
+import com.example.camera.model.Camera
+import com.example.camera.CameraBuilder
+import com.example.camera.usecase.ICameraUseCase
 import java.io.File
 
-class CameraViewModel : ViewModel() {
+class CameraViewModel(
+    private val cameraUseCase: ICameraUseCase
+) : ViewModel() {
     lateinit var camera: Camera
 
     fun initializeCameraProperties(
@@ -21,16 +24,9 @@ class CameraViewModel : ViewModel() {
             .buildCameraExecutor()
             .buildCameraPreview()
             .buildImageCapture(metrics)
+            .buildOutputDirectory(context)
             .build()
     }
 
-    /** Use external media if it is available, our app's file directory otherwise */
-    fun getOutputDirectory(context: Context): File {
-        val appContext = context.applicationContext
-        val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
-            File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-
-        return if (mediaDir != null && mediaDir.exists()) mediaDir else appContext.filesDir
-    }
+    fun takePicture(context: Context, callback: (savedPhoto: File) -> Unit) = cameraUseCase.takePicture(context, camera) { callback(it) }
 }

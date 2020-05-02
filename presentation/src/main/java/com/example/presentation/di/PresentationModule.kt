@@ -1,5 +1,7 @@
 package com.example.presentation.di
 
+import com.example.camera.usecase.CameraUseCase
+import com.example.camera.usecase.ICameraUseCase
 import com.example.data_api.MovieApiBuilder
 import com.example.data_api.repositories.MovieApiRepository
 import com.example.data_api.services.MovieApiService
@@ -51,6 +53,10 @@ val presentationModule = module {
         DeleteMovieUseCase(localRepository = get())
     }
 
+    factory {
+        CameraUseCase() as ICameraUseCase
+    }
+
     viewModel {
         TrendMovieViewModel(
             listTrendingMoviesUseCase = get(),
@@ -75,6 +81,8 @@ val presentationModule = module {
     }
 
     viewModel {
-        CameraViewModel()
+        CameraViewModel(
+            cameraUseCase = get()
+        )
     }
 }

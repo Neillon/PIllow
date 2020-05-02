@@ -25,12 +25,4 @@ class ProfileViewModel(
                 _movieCount.postValue(movies.size)
             }
     }
-
-    fun loadProfilePicture() {
-
-    }
-
-    fun storeProfilePicture() {
-
-    }
 }

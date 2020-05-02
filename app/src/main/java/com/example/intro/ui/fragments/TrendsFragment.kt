@@ -1,8 +1,10 @@
 package com.example.intro.ui.fragments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -97,6 +99,12 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
         }
 
         mViewPagerTrendMovies.setPageTransformer(compositePageTransformer)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mViewPagerTrendMovies.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+                Toast.makeText(context, "scroll: $scrollX", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     @ExperimentalCoroutinesApi

@@ -27,3 +27,10 @@ fun RoundedImageView.loadMovieImageFromPath(path: String?) {
         .fitCenter()
         .into(this)
 }
+
+fun RoundedImageView.loadMovieImageFromFilePath(path: String?) {
+    Glide.with(context)
+        .load(path)
+        .centerCrop()
+        .into(this)
+}

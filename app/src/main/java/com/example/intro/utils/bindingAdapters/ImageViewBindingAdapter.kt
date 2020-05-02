@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.intro.R
+import com.example.intro.utils.extensions.loadMovieImageFromFilePath
 import com.example.intro.utils.extensions.loadMovieImageFromPath
 import com.rishabhharit.roundedimageview.RoundedImageView
 
@@ -24,4 +25,9 @@ fun favoriteIcon(view: ImageButton, favorite: Boolean) {
         view.setBackgroundResource(R.drawable.ic_star_solid)
     } else
         view.setBackgroundResource(R.drawable.ic_star_border)
+}
+
+@BindingAdapter("android:imageFilePath")
+fun loadImageFromFilePath(view: RoundedImageView, path: String?) {
+    view.loadMovieImageFromFilePath(path)
 }

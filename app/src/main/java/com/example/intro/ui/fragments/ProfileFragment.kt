@@ -13,17 +13,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.example.intro.R
 import com.example.intro.databinding.FragmentProfileBinding
+import com.example.intro.ui.REQUEST_CODE_CAMERA_RESULT
 import com.example.intro.ui.activities.CameraActivity
 import com.example.intro.utils.extensions.permissionGranted
 import com.example.presentation.viewmodels.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.android.ext.android.inject
+import java.io.File
 
 internal const val REQUEST_CODE_PERMISSIONS = 10
 internal const val PERMISSION_CAMERA = Manifest.permission.CAMERA
-internal const val REQUEST_CODE_CAMERA_RESULT = 0
 
 class ProfileFragment : Fragment(), LifecycleOwner {
     private val viewModel: ProfileViewModel by inject()
@@ -65,8 +67,12 @@ class ProfileFragment : Fragment(), LifecycleOwner {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_CODE_CAMERA_RESULT -> {
-                val path = data?.getStringExtra("path")
-                Toast.makeText(context, "Result from camera $path", Toast.LENGTH_LONG).show()
+                val photo = data?.getSerializableExtra("photo")
+                Glide
+                    .with(context!!)
+                    .load(photo)
+                    .centerCrop()
+                    .into(mImageViewViewProfilePicture)
             }
         }
     }

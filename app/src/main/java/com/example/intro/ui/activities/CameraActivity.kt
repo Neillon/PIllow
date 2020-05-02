@@ -1,5 +1,6 @@
 package com.example.intro.ui.activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -12,9 +13,11 @@ import androidx.camera.core.CameraSelector
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.intro.R
+import com.example.intro.ui.REQUEST_CODE_CAMERA_RESULT
 import com.example.presentation.viewmodels.CameraViewModel
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
+import java.io.File
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
 
@@ -70,15 +73,11 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         mCameraPreview?.let {
             mCameraPreview.removeView(it)
         }
-
-        // Listener for button used to capture photo
         mImageButtonTakePicture.setOnClickListener {
             viewModel.takePicture(this@CameraActivity) {
                 it?.let {
-                    // We can only change the foreground Drawable using API level 23+ API
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                        // Display flash animation to indicate that photo was captured
                         mCameraPreview.postDelayed({
                             mCameraPreview.foreground = ColorDrawable(Color.WHITE)
                             mCameraPreview.postDelayed(
@@ -87,8 +86,7 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                         }, ANIMATION_SLOW_MILLIS)
                     }
 
-                    // TODO(Finish activity for result)
-                    // finishActivity()
+                    finishActivityAndSendFile(it)
                 }
             }
         }
@@ -99,6 +97,13 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                 else CameraSelector.LENS_FACING_FRONT
             bindCameraUseCases()
         }
+    }
+
+    private fun finishActivityAndSendFile(file: File) {
+        val resultIntent = Intent()
+        resultIntent.putExtra("photo", file)
+        setResult(REQUEST_CODE_CAMERA_RESULT, resultIntent)
+        finish()
     }
 
     companion object {

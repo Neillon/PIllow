@@ -1,6 +1,5 @@
 package com.example.intro.ui.activities
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,101 +10,70 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import androidx.camera.core.ImageCapture.Metadata
 import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.core.ImageCapture.Metadata
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.lifecycle.LifecycleOwner
 import com.example.intro.R
-import com.google.common.util.concurrent.ListenableFuture
+import com.example.presentation.viewmodels.CameraViewModel
 import kotlinx.android.synthetic.main.activity_camera.*
+import org.koin.android.ext.android.inject
 import java.io.File
-import java.lang.Math.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
 
+    private val viewModel: CameraViewModel by inject()
+
     private var lensFacing: Int = CameraSelector.LENS_FACING_FRONT
     private lateinit var outputDirectory: File
-
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-    private lateinit var cameraProvider: ProcessCameraProvider
-    private lateinit var cameraSelector: CameraSelector
-
-    /** Blocking camera operations are performed using this executor */
-    private lateinit var cameraExecutor: ExecutorService
-
-    private var preview: Preview? = null
-    private var imageCapture: ImageCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
-        // Determine the output directory
-        outputDirectory = getOutputDirectory(this@CameraActivity)
+        outputDirectory = viewModel.getOutputDirectory(this@CameraActivity)
 
-        // Wait for the views to be properly laid out
         mCameraPreview.post {
-            updateCameraUi()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                updateCameraUi()
             bindCameraUseCases()
         }
     }
 
     private fun bindCameraUseCases() {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this@CameraActivity)
+        viewModel.camera.cameraProviderFuture.addListener(Runnable {
+            val metrics = DisplayMetrics().also { mCameraPreview.display.getRealMetrics(it) }
+            viewModel.initializeCameraProperties(this@CameraActivity, metrics, lensFacing)
 
-        val metrics = DisplayMetrics().also { mCameraPreview.display.getRealMetrics(it) }
-        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
-
-        cameraProviderFuture.addListener(Runnable {
-            // Camera provider is now guaranteed to be available
-            cameraProvider = cameraProviderFuture.get()
-
-            // Set up the preview use case to display camera preview.
-            preview = Preview.Builder().build()
-
-            // Set up the capture use case to allow users to take photos.
-            imageCapture = ImageCapture.Builder()
-                .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
-                .setTargetAspectRatio(screenAspectRatio!!)
-                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                .build()
-
-            // Choose the camera by requiring a lens facing
-            cameraSelector = CameraSelector.Builder()
-                .requireLensFacing(lensFacing)
-                .build()
-
-            cameraProvider.unbindAll()
+            viewModel.camera.cameraProvider.unbindAll()
 
             try {
-                // A variable number of use-cases can be passed here -
-                // camera provides access to CameraControl & CameraInfo
-                val camera = cameraProvider.bindToLifecycle(
-                    this@CameraActivity, cameraSelector, preview, imageCapture
+                val camera = viewModel.camera.cameraProvider.bindToLifecycle(
+                    this@CameraActivity,
+                    viewModel.camera.cameraSelector,
+                    viewModel.camera.preview,
+                    viewModel.camera.imageCapture
                 )
 
-                // Attach the viewfinder's surface provider to preview use case
-                preview?.setSurfaceProvider(mCameraPreview.createSurfaceProvider(camera?.cameraInfo))
-            } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                viewModel.camera.preview?.setSurfaceProvider(
+                    mCameraPreview.createSurfaceProvider(
+                        camera?.cameraInfo
+                    )
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Use case binding failed", e)
             }
         }, ContextCompat.getMainExecutor(this@CameraActivity))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateCameraUi() {
-
-        // Remove previous UI if any
         mCameraPreview?.let {
             mCameraPreview.removeView(it)
         }
@@ -114,7 +82,7 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         mImageButtonTakePicture.setOnClickListener {
 
             // Get a stable reference of the modifiable image capture use case
-            imageCapture?.let { imageCapture ->
+            viewModel.camera.imageCapture?.let { imageCapture ->
 
                 // Create output file to hold the image
                 val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
@@ -132,7 +100,9 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
 
                 // Setup image capture listener which is triggered after photo has been taken
                 imageCapture.takePicture(
-                    outputOptions, cameraExecutor, object : ImageCapture.OnImageSavedCallback {
+                    outputOptions,
+                    viewModel.camera.cameraExecutor,
+                    object : ImageCapture.OnImageSavedCallback {
                         override fun onError(exc: ImageCaptureException) {
                             Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                         }
@@ -175,54 +145,20 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
             }
         }
 
-        // Listener for button used to switch cameras
         mImageButtonSwitchCamera.setOnClickListener {
-            lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
-                CameraSelector.LENS_FACING_BACK
-            } else {
-                CameraSelector.LENS_FACING_FRONT
-            }
+            lensFacing =
+                if (CameraSelector.LENS_FACING_FRONT == lensFacing) CameraSelector.LENS_FACING_BACK
+                else CameraSelector.LENS_FACING_FRONT
             bindCameraUseCases()
         }
     }
 
-    /**
-     *  [androidx.camera.core.ImageAnalysisConfig] requires enum value of
-     *  [androidx.camera.core.AspectRatio]. Currently it has values of 4:3 & 16:9.
-     *
-     *  Detecting the most suitable ratio for dimensions provided in @params by counting absolute
-     *  of preview ratio to one of the provided values.
-     *
-     *  @param width - preview width
-     *  @param height - preview height
-     *  @return suitable aspect ratio
-     */
-    private fun aspectRatio(width: Int, height: Int): Int {
-        val previewRatio = max(width, height).toDouble() / min(width, height)
-        if (abs(previewRatio - RATIO_4_3_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE)) {
-            return AspectRatio.RATIO_4_3
-        }
-        return AspectRatio.RATIO_16_9
-    }
-
-    /** Use external media if it is available, our app's file directory otherwise */
-    private fun getOutputDirectory(context: Context): File {
-        val appContext = context.applicationContext
-        val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
-            File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-
-        return if (mediaDir != null && mediaDir.exists()) mediaDir else appContext.filesDir
-    }
-
     companion object {
         private const val TAG = "CameraActivity"
-        private const val RATIO_4_3_VALUE = 4.0 / 3.0
-        private const val RATIO_16_9_VALUE = 16.0 / 9.0
         private const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val PHOTO_EXTENSION = ".jpg"
-        private const val ANIMATION_SLOW_MILLIS = 1000L
-        private const val ANIMATION_FAST_MILLIS = 500L
+        private const val ANIMATION_SLOW_MILLIS = 500L
+        private const val ANIMATION_FAST_MILLIS = 200L
 
         private fun createFile(baseFolder: File, format: String, extension: String) =
             File(

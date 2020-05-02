@@ -7,6 +7,7 @@ import com.example.data_local.database.AppDatabase
 import com.example.domain.interactors.movies.*
 import com.example.domain.repositories.movies.MovieLocalRepository
 import com.example.domain.repositories.movies.MovieRemoteRepository
+import com.example.presentation.viewmodels.CameraViewModel
 import com.example.presentation.viewmodels.FavoriteMovieViewModel
 import com.example.presentation.viewmodels.ProfileViewModel
 import com.example.presentation.viewmodels.TrendMovieViewModel
@@ -71,5 +72,9 @@ val presentationModule = module {
         ProfileViewModel(
             favoriteMoviesUseCase = get()
         )
+    }
+
+    viewModel {
+        CameraViewModel()
     }
 }

@@ -9,6 +9,7 @@ import com.example.data_local.database.AppDatabase
 import com.example.domain.interactors.movies.*
 import com.example.domain.repositories.movies.MovieLocalRepository
 import com.example.domain.repositories.movies.MovieRemoteRepository
+import com.example.presentation.datasources.TrendMovieDatasource
 import com.example.presentation.viewmodels.CameraViewModel
 import com.example.presentation.viewmodels.FavoriteMovieViewModel
 import com.example.presentation.viewmodels.ProfileViewModel
@@ -57,11 +58,19 @@ val presentationModule = module {
         CameraUseCase() as ICameraUseCase
     }
 
+    factory {
+        TrendMovieDatasource(
+            listTrendingMoviesUseCase = get(),
+            listFavoriteMoviesUseCase = get()
+        )
+    }
+
     viewModel {
         TrendMovieViewModel(
-            listTrendingMoviesUseCase = get(),
+            trendMovieDatasource = get(),
             saveFavoriteMovieUseCase = get(),
-            listFavoriteMoviesUseCase = get()
+            listFavoriteMoviesUseCase = get(),
+            listTrendingMoviesUseCase = get()
         )
     }
 

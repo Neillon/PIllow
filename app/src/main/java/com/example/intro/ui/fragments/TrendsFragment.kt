@@ -3,12 +3,14 @@ package com.example.intro.ui.fragments
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -60,7 +62,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
                     mTextViewTrendMovieMessage.text = "Loading movies"
                 }
                 is ViewState.Success<*> -> {
-                    trendMovieAdapter.setData(it.data as ArrayList<MovieBinding>)
+                    // trendMovieAdapter.submitList(it as PagedList<MovieBinding>)
 
                     mViewPagerTrendMovies.isVisible = true
                     mProgressBarTrendMovie.isVisible = false
@@ -74,6 +76,11 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
                 }
                 else -> setupLayout()
             }.exhaustive
+        })
+
+        viewModel.getMovies().observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "Find ${it.size} movies")
+            trendMovieAdapter.submitList(it)
         })
     }
 
@@ -121,5 +128,9 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
 
     override fun movieLongClick(view: View, movie: MovieBinding): Boolean {
         return true
+    }
+
+    companion object {
+        internal const val TAG = "TrendsFragment"
     }
 }

@@ -5,5 +5,5 @@ import com.example.domain.entities.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRemoteRepository: IRepository<Movie> {
-    suspend fun listTrending(): Flow<List<Movie>>
+    suspend fun listTrending(page: Int): Flow<List<Movie>>
 }

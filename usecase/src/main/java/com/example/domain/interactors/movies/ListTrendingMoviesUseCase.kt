@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 class ListTrendingMoviesUseCase(
     private val remoteRepository: MovieRemoteRepository
-) : IUseCase<Flow<List<Movie>>, NoParams> {
-    override suspend fun execute(params: NoParams) = remoteRepository.listTrending()
+) : IUseCase<Flow<List<Movie>>, ListTrendingMoviesUseCase.ListTrendingMoviesParams> {
+    override suspend fun execute(params: ListTrendingMoviesParams) = remoteRepository.listTrending(params.page)
+
+    data class ListTrendingMoviesParams(var page: Int = 1)
 }
 

@@ -3,6 +3,7 @@ package com.example.intro.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,21 +13,18 @@ import com.example.intro.ui.actions.FavoriteMovieClick
 import com.example.intro.ui.actions.MovieItemClick
 import com.example.presentation.binding.MovieBinding
 
-class TrendItemCallback : DiffUtil.ItemCallback<MovieBinding>() {
-    override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
-        oldItem.favorite == newItem.favorite
-
-    override fun areContentsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
-        oldItem.id == newItem.id
-}
-
 class TrendsAdapter(
     private val favoriteMovieClick: FavoriteMovieClick,
     private val movieItemClick: MovieItemClick
 ) :
-    ListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(TrendItemCallback()) {
+    PagedListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(object :
+        DiffUtil.ItemCallback<MovieBinding>() {
+        override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
+            oldItem.favorite == newItem.favorite
 
-    private val movies = arrayListOf<MovieBinding>()
+        override fun areContentsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
+            oldItem.id == newItem.id
+    }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,23 +37,12 @@ class TrendsAdapter(
         return TrendViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movies.size
-
     override fun onBindViewHolder(holder: TrendViewHolder, position: Int) {
-        holder.bind(movies[position])
-    }
-
-    fun setData(newMovies: ArrayList<MovieBinding>) {
-        movies.clear()
-        movies.addAll(newMovies)
-        notifyDataSetChanged()
+        getItem(position)?.let { holder.bind(it) }
     }
 
     fun favoriteMovie(movie: MovieBinding) {
-        val savedMovie = movies.firstOrNull { it.id == movie.id }
-        savedMovie?.let {
-            it.favorite = true;
-        }
+        movie.favorite = true;
         notifyDataSetChanged()
     }
 

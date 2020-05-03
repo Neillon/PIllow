@@ -11,6 +11,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
 class TrendMovieDatasource(
@@ -40,40 +41,24 @@ class TrendMovieDatasource(
             listTrendingMoviesUseCase.execute(
                 ListTrendingMoviesUseCase.ListTrendingMoviesParams(page = page)
             )
+                .zip(listFavoriteMoviesUseCase.execute(NoParams())) { moviesRemote, moviesLocal ->
+                    val moviesBinding = moviesRemote.convertToBinding()
+                    moviesBinding.map { movie ->
+                        val favoriteMovie =
+                            moviesLocal.firstOrNull { favoriteMovie -> movie.movieId == favoriteMovie.movieId }
+
+                        if (favoriteMovie != null) {
+                            movie.favorite = true
+                            movie.id = favoriteMovie.id
+                        }
+                    }
+                    moviesBinding
+                }
                 .flowOn(Dispatchers.IO)
                 .collect { movies ->
-                    val moviesBinding = movies.convertToBinding()
-
-                    loadInitialCallback?.onResult(moviesBinding, null, page)
-                    callback?.onResult(moviesBinding, page)
-
-                    // mergeWithFavoriteMovies(page, loadInitialCallback, callback, moviesBinding)
+                    loadInitialCallback?.onResult(movies, null, page)
+                    callback?.onResult(movies, page)
                 }
         }
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun mergeWithFavoriteMovies(
-        page: Int,
-        loadInitialCallback: LoadInitialCallback<Int, MovieBinding>?,
-        callback: LoadCallback<Int, MovieBinding>?,
-        movies: List<MovieBinding>
-    ) = GlobalScope.launch {
-        listFavoriteMoviesUseCase.execute(NoParams())
-            .flowOn(Dispatchers.IO)
-            .collect { favoriteMovies ->
-                movies.map { movie ->
-                    val favoriteMovie =
-                        favoriteMovies.firstOrNull { favoriteMovie -> movie.movieId == favoriteMovie.movieId }
-
-                    if (favoriteMovie != null) {
-                        movie.favorite = true
-                        movie.id = favoriteMovie.id
-                    }
-                }
-
-                loadInitialCallback?.onResult(movies, null, page)
-                callback?.onResult(movies, page)
-            }
     }
 }

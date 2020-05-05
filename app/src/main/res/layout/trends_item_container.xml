@@ -17,9 +17,6 @@
             name="movieItemClick"
             type="com.example.intro.ui.actions.MovieItemClick" />
 
-        <variable
-            name="favorite"
-            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,9 +108,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:background="@null"
-                            android:backgroundTint="@{favorite ? @color/colorPrimary : @color/white}"
                             android:onClick="@{() -> favoriteClick.favoriteMovieClick(movie)}"
-                            android:src="@drawable/ic_star_border" />
+                            android:src="@{movie.favorite ? @drawable/ic_star_solid : @drawable/ic_star_border}" />
 
                     </RelativeLayout>
 

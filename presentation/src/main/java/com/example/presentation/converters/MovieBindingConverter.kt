@@ -16,6 +16,7 @@ object MovieBindingConverter {
         releaseDate = movie.releaseDate
         posterPath = movie.posterPath
         backdropPath = movie.backdropPath
+        favorite = false
         adult = false
         genreIds = listOf()
         mediaType = "movie"
@@ -23,6 +24,7 @@ object MovieBindingConverter {
         originalTitle = movie.title
         video = false
         voteCount = 0
+
     }
 
     fun toDomain(movieSchema: MovieBinding) = Movie(

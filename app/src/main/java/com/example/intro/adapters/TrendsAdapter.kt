@@ -43,7 +43,7 @@ class TrendsAdapter(
     }
 
     fun favoriteMovie(movie: MovieBinding) {
-        movie.favorite
+        movie.favorite = true
         // notifyDataSetChanged()
     }
 
@@ -51,7 +51,6 @@ class TrendsAdapter(
         RecyclerView.ViewHolder(view.root) {
         fun bind(movie: MovieBinding) {
             view.movie = movie
-            view.favorite = movie.favorite
             view.executePendingBindings()
             view.favoriteClick = favoriteMovieClick
             view.movieItemClick = movieItemClick

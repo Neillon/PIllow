@@ -28,13 +28,12 @@ import kotlinx.coroutines.withContext
 
 class TrendMovieViewModel(
     private val trendMovieDatasource: TrendMovieDatasource,
-    private val listTrendingMoviesUseCase: ListTrendingMoviesUseCase,
-    private val saveFavoriteMovieUseCase: SaveFavoriteMovieUseCase,
-    private val listFavoriteMoviesUseCase: ListFavoriteMoviesUseCase
+    private val saveFavoriteMovieUseCase: SaveFavoriteMovieUseCase
 ) : ViewModel() {
 
-    private val _state: MutableLiveData<ViewState> by lazy { MutableLiveData<ViewState>() }
-    var state = _state.asLiveData
+    val state by lazy {
+        trendMovieDatasource.state
+    }
 
     var moviesLiveData: LiveData<PagedList<MovieBinding>>
 
@@ -61,35 +60,6 @@ class TrendMovieViewModel(
         return LivePagedListBuilder<Int, MovieBinding>(dataSourceFactory, config)
     }
 
-    @ExperimentalCoroutinesApi
-    fun listTrendingMovies() = viewModelScope.launch {
-        _state.postValue(ViewState.Loading)
-        try {
-            _state.postValue(ViewState.Success<PagedList<MovieBinding>?>(moviesLiveData.value))
-
-        } catch (e: Exception) {
-            _state.postValue(ViewState.Error(error = e))
-            e.printStackTrace()
-        }
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun findFavoriteMoviesAndPostValue(movies: List<MovieBinding>) = viewModelScope.launch {
-        listFavoriteMoviesUseCase.execute(NoParams())
-            .flowOn(IO)
-            .collect { favoriteMovies ->
-                movies.map { movie ->
-                    val favoriteMovie =
-                        favoriteMovies.firstOrNull { favoriteMovie -> movie.movieId == favoriteMovie.movieId }
-
-                    if (favoriteMovie != null) {
-                        movie.favorite = true
-                        movie.id = favoriteMovie.id
-                    }
-                }
-                _state.postValue(ViewState.Success(movies))
-            }
-    }
 
     @ExperimentalCoroutinesApi
     fun favoriteMovie(movie: MovieBinding) = viewModelScope.launch {
@@ -102,7 +72,7 @@ class TrendMovieViewModel(
                 )
             }
         } catch (e: Exception) {
-            _state.postValue(ViewState.Error(e))
+//            _state.postValue(ViewState.Error(e))
             e.printStackTrace()
         }
     }

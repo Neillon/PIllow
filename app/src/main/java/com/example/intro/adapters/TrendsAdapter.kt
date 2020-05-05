@@ -2,6 +2,7 @@ package com.example.intro.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.BaseObservable
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -18,7 +19,7 @@ class TrendsAdapter(
     private val movieItemClick: MovieItemClick
 ) :
     PagedListAdapter<MovieBinding, TrendsAdapter.TrendViewHolder>(object :
-        DiffUtil.ItemCallback<MovieBinding>() {
+            DiffUtil.ItemCallback<MovieBinding>() {
         override fun areItemsTheSame(oldItem: MovieBinding, newItem: MovieBinding) =
             oldItem.favorite == newItem.favorite
 
@@ -42,16 +43,19 @@ class TrendsAdapter(
     }
 
     fun favoriteMovie(movie: MovieBinding) {
-        movie.favorite = true;
-        notifyDataSetChanged()
+        movie.favorite
+        // notifyDataSetChanged()
     }
 
     inner class TrendViewHolder(var view: TrendsItemContainerBinding) :
         RecyclerView.ViewHolder(view.root) {
         fun bind(movie: MovieBinding) {
             view.movie = movie
+            view.favorite = movie.favorite
+            view.executePendingBindings()
             view.favoriteClick = favoriteMovieClick
             view.movieItemClick = movieItemClick
         }
     }
+
 }

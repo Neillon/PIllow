@@ -38,11 +38,8 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
-        setupLayout()
 
-        if (context?.isConnected!!) {
-            viewModel.listTrendingMovies()
-        } else {
+        if (!context?.isConnected!!) {
             mViewPagerTrendMovies.isVisible = false
             mProgressBarTrendMovie.isVisible = false
             mTextViewTrendMovieMessage.isVisible = true
@@ -55,18 +52,11 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
     private fun observeViewModel() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
-                ViewState.Loading -> {
+                is ViewState.Loading -> {
                     mViewPagerTrendMovies.isVisible = false
                     mProgressBarTrendMovie.isVisible = true
                     mTextViewTrendMovieMessage.isVisible = true
                     mTextViewTrendMovieMessage.text = "Loading movies"
-                }
-                is ViewState.Success<*> -> {
-                    // trendMovieAdapter.submitList(it as PagedList<MovieBinding>)
-
-                    mViewPagerTrendMovies.isVisible = true
-                    mProgressBarTrendMovie.isVisible = false
-                    mTextViewTrendMovieMessage.isVisible = false
                 }
                 is ViewState.Error -> {
                     mViewPagerTrendMovies.isVisible = false
@@ -74,22 +64,21 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
                     mTextViewTrendMovieMessage.isVisible = true
                     mTextViewTrendMovieMessage.text = "Error loading movies: ${it.error.message}"
                 }
-                else -> setupLayout()
-            }.exhaustive
+                is ViewState.Success<*>->{
+                    mViewPagerTrendMovies.isVisible = true
+                    mProgressBarTrendMovie.isVisible = false
+                    mTextViewTrendMovieMessage.isVisible = false
+                }
+            }
         })
 
         viewModel.getMovies().observe(viewLifecycleOwner, Observer {
+            trendMovieAdapter.submitList(it as PagedList<MovieBinding>)
             Log.d(TAG, "Find ${it.size} movies")
-            trendMovieAdapter.submitList(it)
+
         })
     }
 
-    private fun setupLayout() {
-        mViewPagerTrendMovies.isVisible = false
-        mProgressBarTrendMovie.isVisible = false
-        mTextViewTrendMovieMessage.isVisible = true
-        mTextViewTrendMovieMessage.text = "Nothing to show"
-    }
 
     private fun setupViewPager() {
         mViewPagerTrendMovies.adapter = trendMovieAdapter

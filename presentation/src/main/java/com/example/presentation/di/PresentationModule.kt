@@ -68,9 +68,7 @@ val presentationModule = module {
     viewModel {
         TrendMovieViewModel(
             trendMovieDatasource = get(),
-            saveFavoriteMovieUseCase = get(),
-            listFavoriteMoviesUseCase = get(),
-            listTrendingMoviesUseCase = get()
+            saveFavoriteMovieUseCase = get()
         )
     }
 

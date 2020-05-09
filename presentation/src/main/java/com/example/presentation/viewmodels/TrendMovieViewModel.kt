@@ -31,11 +31,10 @@ class TrendMovieViewModel(
     private val saveFavoriteMovieUseCase: SaveFavoriteMovieUseCase
 ) : ViewModel() {
 
+    private var moviesLiveData: LiveData<PagedList<MovieBinding>>
     val state by lazy {
         trendMovieDatasource.state
     }
-
-    var moviesLiveData: LiveData<PagedList<MovieBinding>>
 
     init {
         val config = PagedList.Config.Builder()
@@ -72,7 +71,7 @@ class TrendMovieViewModel(
                 )
             }
         } catch (e: Exception) {
-//            _state.postValue(ViewState.Error(e))
+            // state.value = ViewState.Error(e)
             e.printStackTrace()
         }
     }

@@ -1,14 +1,12 @@
 package com.example.presentation.binding
 
-import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.example.presentation.BR
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 import java.util.*
 
-@Parcelize
-class MovieBinding : BaseObservable(), Parcelable {
+class MovieBinding : Serializable, BaseObservable() {
     var id: Long? = null
     var video: Boolean = false
     var voteCount: Int = 0

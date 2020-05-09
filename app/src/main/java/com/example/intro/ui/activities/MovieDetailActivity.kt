@@ -21,7 +21,7 @@ class MovieDetailActivity : AppCompatActivity() {
         val bundle = intent.extras
 
         bundle?.let {
-            val movie = bundle.getSerializable("movie") as MovieBinding
+            val movie = intent.getSerializableExtra("movie") as MovieBinding
             binding.movie = movie
             mToolbarDetail.title = movie?.title
         }

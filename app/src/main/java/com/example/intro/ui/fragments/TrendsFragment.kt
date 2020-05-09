@@ -64,7 +64,7 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
                     mTextViewTrendMovieMessage.isVisible = true
                     mTextViewTrendMovieMessage.text = "Error loading movies: ${it.error.message}"
                 }
-                is ViewState.Success<*>->{
+                is ViewState.Success<*> -> {
                     mViewPagerTrendMovies.isVisible = true
                     mProgressBarTrendMovie.isVisible = false
                     mTextViewTrendMovieMessage.isVisible = false
@@ -75,10 +75,8 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
         viewModel.getMovies().observe(viewLifecycleOwner, Observer {
             trendMovieAdapter.submitList(it as PagedList<MovieBinding>)
             Log.d(TAG, "Find ${it.size} movies")
-
         })
     }
-
 
     private fun setupViewPager() {
         mViewPagerTrendMovies.adapter = trendMovieAdapter
@@ -110,9 +108,10 @@ class TrendsFragment : Fragment(R.layout.fragment_trends), FavoriteMovieClick, M
     }
 
     override fun movieClick(movie: MovieBinding) {
-        val intent = Intent(activity, MovieDetailActivity::class.java)
-        intent.putExtra("movie", movie)
-        startActivity(intent)
+        val intentDetail = Intent(activity, MovieDetailActivity::class.java).apply {
+            putExtra("movie", movie)
+        }
+        startActivity(intentDetail)
     }
 
     override fun movieLongClick(view: View, movie: MovieBinding): Boolean {

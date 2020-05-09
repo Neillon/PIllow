@@ -44,7 +44,6 @@ class TrendsAdapter(
 
     fun favoriteMovie(movie: MovieBinding) {
         movie.favorite = true
-        // notifyDataSetChanged()
     }
 
     inner class TrendViewHolder(var view: TrendsItemContainerBinding) :

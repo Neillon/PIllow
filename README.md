@@ -24,17 +24,19 @@ const val BASE_BACKDROP_IMAGE_URL = "http://image.tmdb.org/t/p/w500/"
 ---
 
 **Screenshots:**
-<div>
-  <img align="center" src="screenshots/loading.jpg" width="270" height="540"/>&nbsp
-  
-  <img align="center" src="screenshots/trends.jpg" width="270" height="540"/>&nbsp
-  <img align="center" src="screenshots/trends_favorited.jpg" width="270" height="540"/>&nbsp
-  
-  <img align="center" src="screenshots/detail.jpg" width="270" height="540"/>&nbsp
-  <img align="center" src="screenshots/detail_2.jpg" width="270" height="540"/>&nbsp
-  
-  <img align="center" src="screenshots/favorites.jpg" width="270" height="540"/>&nbsp
-  <img align="center" src="screenshots/search_text.jpg" width="270" height="540"/>&nbsp
-  
-  <img src="screenshots/profile.jpg" width="270" height="540"/>
+<div align="middle">
+  <p align="middle"> 
+    <img align="center" src="screenshots/loading.jpg" width="240" height="480"/>&nbsp
+    <img align="center" src="screenshots/trends.jpg" width="240" height="480"/>&nbsp
+    <img align="center" src="screenshots/trends_favorited.jpg" width="240" height="480"/>
+  </p>
+  <p align="middle">
+    <img align="center" src="screenshots/detail.jpg" width="240" height="480"/>&nbsp
+    <img align="center" src="screenshots/detail_2.jpg" width="240" height="480"/>&nbsp
+    <img align="center" src="screenshots/favorites.jpg" width="240" height="480"/>
+  </p>
+  <p align="middle">
+    <img src="screenshots/search_text.jpg" width="240" height="480"/>&nbsp
+    <img src="screenshots/profile.jpg" width="240" height="480"/>
+  </p>
 </div>

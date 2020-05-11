@@ -15,6 +15,7 @@ const val BASE_BACKDROP_IMAGE_URL = "http://image.tmdb.org/t/p/w500/"
 - Live Data 
 - Paging
 - ViewModel
+- Koin
 - Permissions
 - ViewPager2
 - Retrofit
